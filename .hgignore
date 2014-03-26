@@ -1,0 +1,33 @@
+syntax: glob
+
+# distutils generated files and folders
+dist
+MANIFEST
+
+# egg folder (when package is used as a buildout dev egg)
+dir-sync.egg-info
+
+# eclipse project related files and folders
+.pydevproject
+.project
+.settings
+
+# python binary files
+*.pyc
+
+# locale binary files
+*.mo
+
+# log files
+*.log
+
+# Windows thumbnails
+**/thumbs.db
+
+
+syntax: regexp
+
+# buildout files and folders
+^buildout/(?!parts\.cfg$).*$
+^\.installed.cfg$
+
