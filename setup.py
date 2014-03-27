@@ -48,7 +48,8 @@ metadata = dict(
         'Topic :: Desktop Environment',
         'Topic :: System :: Archiving :: Backup',
         'Topic :: Desktop Environment :: Mirroring'
-    ]
+    ],
+    scripts=['scripts/dirsync.py']
 )
 
 

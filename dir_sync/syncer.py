@@ -30,7 +30,7 @@ class Syncer(object):
     """ An advanced directory synchronisation, update
     and file copying class """
 
-    prog_name = "syncer.py"
+    prog_name = "dirsync.py"
 
     def __init__(self, dir1, dir2, **options):
 
