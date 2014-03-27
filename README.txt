@@ -13,25 +13,43 @@ based on `Python robocopier`_ by Anand B Pillai
 Usage
 -----
 
-python robocopy.py <sourcedir> <targetdir> [options]
+From the command line::
+
+   syncer.py <sourcedir> <targetdir> [options]
+
+From python::
+
+   from dirsync import sync
+   sync(sourcedir, targetdir, **options)
 
 
 Main Options:
 -------------
 
--d --diff          Only report difference between sourcedir and targetdir
--s, --synchronize  Synchronize content between sourcedir and targetdir
--u, --update       Update existing content between sourcedir and targetdir
+Chosing one option among the following ones is mandatory
+
+-d, --diff             Only report difference between sourcedir and targetdir
+-s, --synchronize     Synchronize content between sourcedir and targetdir
+-u, --update          Update existing content between sourcedir and targetdir
 
 
 Additional Options:
 -------------------
 
--p, --purge        Purge files when synchronizing (does not purge by default).
--f, --force        Force copying of files, by trying to change file permissions.
--n, --nodirection  Update files in source directory from target
-                   directory (only updates target from source by default).
--c, --create       Create target directory if it does not exist (By default,
-                   target directory should exist.)
--m, --modtime      Only compare file's modification times for an update (By default,
-                   compares source file's creation time also).
+--purge, -p           Purge files when synchronizing (does not purge by
+                      default)
+--force, -f           Force copying of files, by trying to change file
+                      permissions
+--nodirection, -n     Create target directory if it does not exist (By
+                      default, target directory should exist.)
+--create, -c          Only compare file's modification times for an update
+                      (By default, compares source file's creation time
+                      also)
+--modtime, -m         Update existing content between sourcedir and
+                      targetdir
+--ignore IGNORE [IGNORE ...], -i IGNORE [IGNORE ...]
+                      Patterns to ignore
+--only ONLY [ONLY ...], -o ONLY [ONLY ...]
+                      Patterns to include (exclude every other)
+--exclude EXCLUDE [EXCLUDE ...], -x EXCLUDE [EXCLUDE ...]
+                      Patterns to exclude

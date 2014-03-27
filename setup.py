@@ -21,11 +21,11 @@ dev_status = __version_info__[3]
 if dev_status == 'alpha' and not __version_info__[4]:
     dev_status = 'pre'
 
-DEV_STATUS = {'pre':'2 - Pre-Alpha',
-              'alpha':'3 - Alpha',
-              'beta':'4 - Beta',
-              'rc':'5 - Production/Stable',
-              'final':'5 - Production/Stable'}
+DEV_STATUS = {'pre': '2 - Pre-Alpha',
+              'alpha': '3 - Alpha',
+              'beta': '4 - Beta',
+              'rc': '5 - Production/Stable',
+              'final': '5 - Production/Stable'}
 
 # setup function parameters
 metadata = dict(
