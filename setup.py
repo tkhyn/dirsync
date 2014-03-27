@@ -8,14 +8,14 @@ MIT license (see LICENSE.txt)
 from distutils.core import setup
 import os
 
-INC_PACKAGES = 'dirsync',  # string or tuple of strings
+INC_PACKAGES = 'dir_sync',  # string or tuple of strings
 EXC_PACKAGES = ()  # tuple of strings
 
 install_requires = (
 )
 
 # imports __version__ and __version_info__ variables
-exec(open('dirsync/version.py').read())
+exec(open('dir_sync/version.py').read())
 
 dev_status = __version_info__[3]
 if dev_status == 'alpha' and not __version_info__[4]:

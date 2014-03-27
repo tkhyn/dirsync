@@ -513,7 +513,7 @@ def sync(src_dir, tgt_dir, action, **options):
     copier.report()
 
 
-if __name__ == "__main__":
+def execute_from_command_line():
     import argparse
 
     parser = argparse.ArgumentParser(

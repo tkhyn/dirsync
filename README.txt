@@ -15,11 +15,11 @@ Usage
 
 From the command line::
 
-   syncer.py <sourcedir> <targetdir> [options]
+   dirsync.py <sourcedir> <targetdir> [options]
 
 From python::
 
-   from dirsync import sync
+   from dir_sync import sync
    sync(sourcedir, targetdir, **options)
 
 
