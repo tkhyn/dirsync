@@ -92,10 +92,12 @@ class Syncer(object):
 
         self._numdirs += 1
 
+        excl_patterns = set(self._exclude).union(self._ignore)
+
         for cwd, dirs, files in os.walk(dir1):
             self._numdirs += len(dirs)
             for f in dirs + files:
-                path = os.path.relpath(os.path.join(dir1, cwd, f), dir1) \
+                path = os.path.relpath(os.path.join(cwd, f), dir1) \
                               .replace('\\', '/')
                 if self._only:
                     for pattern in self._only:
@@ -106,13 +108,25 @@ class Syncer(object):
                         # next item, this one does not match any pattern
                         # in the _only list
                         continue
-                for pattern in set(self._exclude).union(self._ignore)\
-                                                 .difference(self._include):
+
+                add_path = False
+                for pattern in self._include:
                     if re.match(pattern, path):
-                        if f in dirs:
-                            dirs.remove(f)
+                        add_path = True
                         break
                 else:
+                    # path was not in includes
+                    # test if it is in excludes
+                    for pattern in excl_patterns:
+                        if re.match(pattern, path):
+                            # path is in excludes, do not add it
+                            break
+                    else:
+                        # path was not in excludes
+                        # it should be added
+                        add_path = True
+
+                if add_path:
                     left.add(path)
                     anc_dirs = path[:-1].split('/')
                     for i in range(1, len(anc_dirs)):
@@ -120,7 +134,7 @@ class Syncer(object):
 
         for cwd, dirs, files in os.walk(dir2):
             for f in dirs + files:
-                path = os.path.relpath(os.path.join(dir2, cwd, f), dir2) \
+                path = os.path.relpath(os.path.join(cwd, f), dir2) \
                               .replace('\\', '/')
                 for pattern in self._ignore:
                     if re.match(pattern, path):
