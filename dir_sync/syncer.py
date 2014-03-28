@@ -97,11 +97,11 @@ class Syncer(object):
         for cwd, dirs, files in os.walk(dir1):
             self._numdirs += len(dirs)
             for f in dirs + files:
-                path = os.path.relpath(os.path.join(cwd, f), dir1) \
-                              .replace('\\', '/')
+                path = os.path.relpath(os.path.join(cwd, f), dir1)
+                re_path = path.replace('\\', '/')
                 if self._only:
                     for pattern in self._only:
-                        if re.match(pattern, path):
+                        if re.match(pattern, re_path):
                             # go to exclude and ignore filtering
                             break
                     else:
@@ -111,14 +111,14 @@ class Syncer(object):
 
                 add_path = False
                 for pattern in self._include:
-                    if re.match(pattern, path):
+                    if re.match(pattern, re_path):
                         add_path = True
                         break
                 else:
                     # path was not in includes
                     # test if it is in excludes
                     for pattern in excl_patterns:
-                        if re.match(pattern, path):
+                        if re.match(pattern, re_path):
                             # path is in excludes, do not add it
                             break
                     else:
@@ -134,10 +134,10 @@ class Syncer(object):
 
         for cwd, dirs, files in os.walk(dir2):
             for f in dirs + files:
-                path = os.path.relpath(os.path.join(cwd, f), dir2) \
-                              .replace('\\', '/')
+                path = os.path.relpath(os.path.join(cwd, f), dir2)
+                re_path = path.replace('\\', '/')
                 for pattern in self._ignore:
-                    if re.match(pattern, path):
+                    if re.match(pattern, re_path):
                         if f in dirs:
                             dirs.remove(f)
                         break
