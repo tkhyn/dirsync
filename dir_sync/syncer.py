@@ -41,6 +41,10 @@ class Syncer(object):
         self._updatefiles = True
         self._creatdirs = True
 
+        self._changed = []
+        self._added = []
+        self._deleted = []
+
         # stat vars
         self._numdirs = 0
         self._numfiles = 0
@@ -171,6 +175,7 @@ class Syncer(object):
                     if os.path.isfile(fullf2):
                         try:
                             os.remove(fullf2)
+                            self._deleted.append(fullf2)
                             self._numdelfiles += 1
                         except OSError, e:
                             print e
@@ -178,6 +183,7 @@ class Syncer(object):
                     elif os.path.isdir(fullf2):
                         try:
                             shutil.rmtree(fullf2, True)
+                            self._deleted.append(fullf2)
                             self._numdeldirs += 1
                         except shutil.Error, e:
                             print e
@@ -197,10 +203,12 @@ class Syncer(object):
             if stat.S_ISREG(st.st_mode):
                 if copyfunc:
                     copyfunc(f1, self._dir1, self._dir2)
+                    self._added.append(os.path.join(self._dir2, f1))
             elif stat.S_ISDIR(st.st_mode):
                 to_make = os.path.join(self._dir2, f1)
                 if not os.path.exists(to_make):
                     os.makedirs(to_make)
+                    self._added.append(to_make)
 
         # common files/directories
         for f1 in self._dcmp.common:
@@ -212,6 +220,7 @@ class Syncer(object):
             if stat.S_ISREG(st.st_mode):
                 if updatefunc:
                     updatefunc(f1, self._dir1, self._dir2)
+                    self._changed.append(os.path.join(self._dir2, f1))
             # nothing to do if we have a directory
 
     def _copy(self, filename, dir1, dir2):
@@ -511,6 +520,8 @@ def sync(src_dir, tgt_dir, action, **options):
 
     # print report at the end
     copier.report()
+
+    return set(copier._changed).union(copier._added).union(copier._deleted)
 
 
 def execute_from_command_line():
