@@ -236,7 +236,6 @@ class Syncer(object):
             if stat.S_ISREG(st.st_mode):
                 if updatefunc:
                     updatefunc(f1, self._dir1, self._dir2)
-                    self._changed.append(os.path.join(self._dir2, f1))
             # nothing to do if we have a directory
 
     def _copy(self, filename, dir1, dir2):
@@ -366,6 +365,7 @@ class Syncer(object):
                                 os.symlink(os.readlink(file1), file2)
                             else:
                                 shutil.copy2(file1, file2)
+                            self._changed.append(file2)
                             self._numupdates += 1
                             return 0
                         except (IOError, OSError), e:
@@ -395,6 +395,7 @@ class Syncer(object):
                                 os.symlink(os.readlink(file2), file1)
                             else:
                                 shutil.copy2(file2, file1)
+                            self._changed.append(file1)
                             self._numupdates += 1
                             return 0
                         except (IOError, OSError), e:
