@@ -489,7 +489,7 @@ class Syncer(object):
         # We need only the first 4 significant digits
         tt = (str(self._endtime - self._starttime))[:4]
 
-        print '\nPython syncer finished in %d seconds.' % tt
+        print '\nPython syncer finished in %s seconds.' % tt
         print '%d directories parsed, %d files copied' % \
               (self._numdirs, self._numfiles)
         if self._numdelfiles:
