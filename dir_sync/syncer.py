@@ -74,6 +74,7 @@ class Syncer(object):
         self._ignore = options.get('ignore', [])
         self._only = options.get('only', [])
         self._exclude = options.get('exclude', [])
+        self._include = options.get('include', [])
 
         if not os.path.isdir(self._dir1):
             raise ValueError(
@@ -105,7 +106,8 @@ class Syncer(object):
                         # next item, this one does not match any pattern
                         # in the _only list
                         continue
-                for pattern in set(self._exclude).union(self._ignore):
+                for pattern in set(self._exclude).union(self._ignore)\
+                                                 .difference(self._include):
                     if re.match(pattern, path):
                         if f in dirs:
                             dirs.remove(f)
@@ -559,12 +561,14 @@ def execute_from_command_line():
              '(By default, compares source file\'s creation time also)')
     parser.add_argument('--modtime', '-m', action='store_true', default=False,
         help='Update existing content between sourcedir and targetdir')
-    parser.add_argument('--ignore', '-i', action='store', nargs='+',
-        default=[], help='Patterns to ignore')
     parser.add_argument('--only', '-o', action='store', nargs='+', default=[],
-        help='Patterns to include (exclude every other)')
-    parser.add_argument('--exclude', '-x', action='store', nargs='+',
+        help='Patterns to exclusively include (exclude every other)')
+    parser.add_argument('--exclude', '-e', action='store', nargs='+',
         default=[], help='Patterns to exclude')
+    parser.add_argument('--include', '-i', action='store', nargs='+',
+        default=[], help='Patterns to include (with precedence over excludes)')
+    parser.add_argument('--ignore', '-x', action='store', nargs='+',
+        default=[], help='Patterns to ignore (no action)')
 
     options = vars(parser.parse_args())
 

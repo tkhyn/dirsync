@@ -47,9 +47,11 @@ Additional Options:
                       also)
 --modtime, -m         Update existing content between sourcedir and
                       targetdir
---ignore IGNORE [IGNORE ...], -i IGNORE [IGNORE ...]
+--ignore IGNORE [IGNORE ...], -x IGNORE [IGNORE ...]
                       Patterns to ignore
 --only ONLY [ONLY ...], -o ONLY [ONLY ...]
                       Patterns to include (exclude every other)
---exclude EXCLUDE [EXCLUDE ...], -x EXCLUDE [EXCLUDE ...]
+--exclude EXCLUDE [EXCLUDE ...], -e EXCLUDE [EXCLUDE ...]
                       Patterns to exclude
+--exclude EXCLUDE [EXCLUDE ...], -i EXCLUDE [EXCLUDE ...]
+                      Patterns to include (with precedence over excludes)
