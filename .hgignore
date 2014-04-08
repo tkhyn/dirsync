@@ -1,5 +1,9 @@
 syntax: glob
 
+# buildout files and folders
+buildout
+.installed.cfg
+
 # distutils generated files and folders
 dist
 MANIFEST
@@ -23,11 +27,4 @@ dir-sync.egg-info
 
 # Windows thumbnails
 **/thumbs.db
-
-
-syntax: regexp
-
-# buildout files and folders
-^buildout/(?!parts\.cfg$).*$
-^\.installed.cfg$
 
