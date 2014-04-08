@@ -34,7 +34,7 @@ metadata = dict(
     description='Advanced directory tree synchronisation tool',
     author='Thomas Khyn',
     author_email='thomas@ksytek.com',
-    url='http://open.ksytek.com/dir-sync/',  # TODO: check url
+    url='http://bitbucket.org/tkhyn/dir-sync/',
     keywords=['directory', 'folder', 'update', 'synchronisation'],
     classifiers=[
         'Programming Language :: Python',
