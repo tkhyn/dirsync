@@ -2,6 +2,7 @@
 dir-sync
 Advanced directory tree synchronisation tool
 (c) 2014 Thomas Khyn
+(c) 2003 Anand B Pillai
 MIT license (see LICENSE.txt)
 """
 

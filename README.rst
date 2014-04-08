@@ -2,6 +2,7 @@ dir-sync
 ========
 
 |copyright| 2014 Thomas Khyn
+|copyright| 2003 Anand B Pillai
 
 Advanced directory tree synchronisation tool
 
