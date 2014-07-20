@@ -27,7 +27,7 @@ Main Options:
 
 Chosing one option among the following ones is mandatory
 
--d, --diff             Only report difference between sourcedir and targetdir
+-d, --diff            Only report difference between sourcedir and targetdir
 -s, --synchronize     Synchronize content between sourcedir and targetdir
 -u, --update          Update existing content between sourcedir and targetdir
 
