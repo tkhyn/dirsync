@@ -27,14 +27,15 @@ Main Options:
 
 Chosing one option among the following ones is mandatory
 
--d, --diff            Only report difference between sourcedir and targetdir
--s, --synchronize     Synchronize content between sourcedir and targetdir
--u, --update          Update existing content between sourcedir and targetdir
+--diff, -d              Only report difference between sourcedir and targetdir
+--sync, -s              Synchronize content between sourcedir and targetdir
+--update, -u            Update existing content between sourcedir and targetdir
 
 
 Additional Options:
 -------------------
 
+--verbose, -v           Provide verbose output
 --purge, -p             Purge files when synchronizing (does not purge by
                         default)
 --force, -f             Force copying of files, by trying to change file
@@ -46,10 +47,11 @@ Additional Options:
                         also)
 --modtime, -m           Update existing content between sourcedir and
                         targetdir
---ignore, -x patterns   Patterns to ignore
---only, -o patterns     Patterns to include (exclude every other)
---exclude, -e patterns  Patterns to exclude
---include, -i patterns  Patterns to include (with precedence over excludes)
+--ignore, -x patterns   Regex patterns to ignore
+--only, -o patterns     Regex patterns to include (exclude every other)
+--exclude, -e patterns  Regex patterns to exclude
+--include, -i patterns  Regex patterns to include (with precedence over
+                        excludes)
 
 .. |copyright| unicode:: 0xA9
 
