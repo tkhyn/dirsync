@@ -547,7 +547,7 @@ def execute_from_command_line():
     parser = argparse.ArgumentParser(
         description='Syncer: Command line directory diff, synchronization, '\
                     'update & copy\n'\
-                    'Authors: Anand Pillai (v1.0), Thomas Khyn (v1.1)')
+                    'Authors: Anand Pillai (v1.0), Thomas Khyn (v2.x)')
 
     parser.add_argument('sourcedir', action='store', help='Source directory')
     parser.add_argument('targetdir', action='store', help='Target directory')
