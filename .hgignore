@@ -5,11 +5,12 @@ buildout
 .installed.cfg
 
 # distutils generated files and folders
+build
 dist
 MANIFEST
 
 # egg folder (when package is used as a buildout dev egg)
-dir-sync.egg-info
+dir_sync.egg-info
 
 # eclipse project related files and folders
 .pydevproject

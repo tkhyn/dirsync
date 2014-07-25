@@ -14,7 +14,7 @@ Usage
 
 From the command line::
 
-   dirsync.py <sourcedir> <targetdir> [options]
+   dir_sync <sourcedir> <targetdir> [options]
 
 From python::
 
