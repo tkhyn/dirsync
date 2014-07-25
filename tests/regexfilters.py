@@ -1,7 +1,7 @@
 from base import SyncTestCase
 import trees
 
-from dir_sync import sync
+from dirsync import sync
 
 
 class SimpleTests(SyncTestCase):

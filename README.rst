@@ -1,5 +1,5 @@
-dir-sync
-========
+dirsync
+=======
 
 |copyright| 2014 Thomas Khyn
 |copyright| 2003 Anand B Pillai
@@ -14,11 +14,11 @@ Usage
 
 From the command line::
 
-   dir_sync <sourcedir> <targetdir> [options]
+   dirsync <sourcedir> <targetdir> [options]
 
 From python::
 
-   from dir_sync import sync
+   from dirsync import sync
    sync(sourcedir, targetdir, **options)
 
 

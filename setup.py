@@ -1,5 +1,5 @@
 """
-dir-sync
+dirsync
 Advanced directory tree synchronisation tool
 (c) 2014 Thomas Khyn
 (c) 2003 Anand B Pillai
@@ -9,11 +9,11 @@ MIT license (see LICENSE.txt)
 from setuptools import setup, find_packages
 import os
 
-INC_PACKAGES = 'dir_sync',  # string or tuple of strings
+INC_PACKAGES = 'dirsync',  # string or tuple of strings
 EXC_PACKAGES = ()  # tuple of strings
 
 # imports __version__ and __version_info__ variables
-exec(open('dir_sync/version.py').read())
+exec(open('dirsync/version.py').read())
 
 dev_status = __version_info__[3]
 if dev_status == 'alpha' and not __version_info__[4]:
@@ -26,13 +26,13 @@ DEV_STATUS = {'pre': '2 - Pre-Alpha',
               'final': '5 - Production/Stable'}
 
 setup(
-    name='dir-sync',
+    name='dirsync',
     version=__version__,
     description='Advanced directory tree synchronisation tool',
     long_description=open(os.path.join('README.rst')).read(),
     author='Thomas Khyn',
     author_email='thomas@ksytek.com',
-    url='https://bitbucket.org/tkhyn/dir-sync/',
+    url='https://bitbucket.org/tkhyn/dirsync/',
     keywords=['directory', 'folder', 'update', 'synchronisation'],
     classifiers=[
         'Programming Language :: Python',
@@ -54,7 +54,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'dir-sync = dir_sync.syncer:execute_from_command_line'
+            'dirsync = dirsync.syncer:execute_from_command_line'
         ],
     }
 )
