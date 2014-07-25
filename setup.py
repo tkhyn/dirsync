@@ -45,7 +45,7 @@ setup(
         'Topic :: Utilities',
         'Topic :: Desktop Environment',
         'Topic :: System :: Archiving :: Backup',
-        'Topic :: Desktop Environment :: Mirroring'
+        'Topic :: System :: Archiving :: Mirroring'
     ],
     packages=find_packages(exclude=('tests',)),
     include_package_data=True,
