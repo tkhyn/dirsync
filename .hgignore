@@ -12,11 +12,6 @@ MANIFEST
 # egg folder (when package is used as a buildout dev egg)
 dirsync.egg-info
 
-# eclipse project related files and folders
-.pydevproject
-.project
-.settings
-
 # python binary files
 *.pyc
 
@@ -25,7 +20,3 @@ dirsync.egg-info
 
 # log files
 *.log
-
-# Windows thumbnails
-**/thumbs.db
-
