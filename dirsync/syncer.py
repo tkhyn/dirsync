@@ -258,14 +258,16 @@ class Syncer(object):
             dir2 = os.path.join(dir2, rel_dir)
 
             if self._verbose:
-                self.log('Copying file %s from %s to %s' % (filename, dir1, dir2))
+                self.log('Copying file %s from %s to %s' %
+                         (filename, dir1, dir2))
             try:
                 # source to target
                 if self._copydirection == 0 or self._copydirection == 2:
 
                     if not os.path.exists(dir2):
                         if self._forcecopy:
-                            os.chmod(os.path.dirname(dir2_root), 1911)  # 1911 = 0o777
+                            # 1911 = 0o777
+                            os.chmod(os.path.dirname(dir2_root), 1911)
                         try:
                             os.makedirs(dir2)
                         except OSError as e:
@@ -292,7 +294,8 @@ class Syncer(object):
 
                     if not os.path.exists(dir1):
                         if self._forcecopy:
-                            os.chmod(os.path.dirname(self.dir1_root), 1911)  # 1911 = 0o777
+                            # 1911 = 0o777
+                            os.chmod(os.path.dirname(self.dir1_root), 1911)
 
                         try:
                             os.makedirs(dir1)
@@ -501,7 +504,8 @@ class Syncer(object):
         self._creatdirs = False
         self._updatefiles = False
 
-        self.log('Difference of directory %s from %s\n' % (self._dir2, self._dir1))
+        self.log('Difference of directory %s from %s\n' %
+                 (self._dir2, self._dir1))
         self._dirdiff()
 
     def report(self):
