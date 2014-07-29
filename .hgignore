@@ -1,7 +1,7 @@
 syntax: glob
 
 # buildout files and folders
-buildout
+bin
 .installed.cfg
 
 # distutils generated files and folders
