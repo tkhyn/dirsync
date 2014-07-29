@@ -1,8 +1,9 @@
-from base import SyncTestCase
 import os
-import trees
 
 from dirsync import sync
+
+from .base import SyncTestCase
+from . import trees
 
 
 class SyncTests(SyncTestCase):

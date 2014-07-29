@@ -1,6 +1,8 @@
 import os
 import shutil
 
+from six import string_types
+
 try:
     import unittest2 as unittest
 except ImportError:
@@ -42,7 +44,7 @@ class SyncTestCase(unittest.TestCase):
             os.chdir(name)
 
             for x in structure:
-                if isinstance(x, basestring):
+                if isinstance(x, string_types):
                     open(x, 'w').close()  # create empty file
                 else:
                     self.mk_tree(*x)

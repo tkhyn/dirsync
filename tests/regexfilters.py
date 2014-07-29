@@ -1,5 +1,5 @@
-from base import SyncTestCase
-import trees
+from .base import SyncTestCase
+from . import trees
 
 from dirsync import sync
 
