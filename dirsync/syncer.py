@@ -436,25 +436,29 @@ class Syncer(object):
         """
         self._dowork(dir1, dir2, self._copy, self._update)
 
-    def _dirdiff(self):
+    def _diff(self, dir1, dir2):
         """
         Private function which only does directory diff
         """
 
+        self._dcmp = self._compare(dir1, dir2)
+
         if self._dcmp.left_only:
-            self.log('Only in %s' % self._dir1)
-            for x in self._dcmp.left_only:
+            self.log('Only in %s' % dir1)
+            files = []
+            for x in sorted(self._dcmp.left_only):
                 self.log('>> %s' % x)
+            self.log('')
 
         if self._dcmp.right_only:
-            self.log('Only in', self._dir2)
-            for x in self._dcmp.right_only:
+            self.log('Only in %s' % dir2)
+            for x in sorted(self._dcmp.right_only):
                 self.log('<< %s' % x)
+            self.log('')
 
         if self._dcmp.common:
             self.log('Common to %s and %s' % (self._dir1, self._dir2))
-            print
-            for x in self._dcmp.common:
+            for x in sorted(self._dcmp.common):
                 self.log('-- %s' % x)
         else:
             self.log('No common files or sub-directories!')
@@ -493,7 +497,7 @@ class Syncer(object):
                      (self._dir2, self._dir1))
         self._dirdiffandupdate(self._dir1, self._dir2)
 
-    def dirdiff(self):
+    def diff(self):
         """
         Only report difference in content between two directories
         """
@@ -506,7 +510,7 @@ class Syncer(object):
 
         self.log('Difference of directory %s from %s\n' %
                  (self._dir2, self._dir1))
-        self._dirdiff()
+        self._diff(self._dir1, self._dir2)
 
     def report(self):
         """ Print report of work at the end """
