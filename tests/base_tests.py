@@ -1,8 +1,8 @@
-from .base import SyncTestCase
+from .base import DirSyncTestCase
 from . import trees
 
 
-class MkTreeTests(SyncTestCase):
+class MkTreeTests(DirSyncTestCase):
 
     init_trees = (('src', trees.simple),)
 

@@ -1,10 +1,12 @@
-from .base import SyncTestCase
+import os
+
+from .base import DirSyncTestCase
 from . import trees
 
 from dirsync import sync
 
 
-class SimpleTests(SyncTestCase):
+class SimpleTests(DirSyncTestCase):
 
     init_trees = (('src', trees.simple),)
 
@@ -38,8 +40,46 @@ class SimpleTests(SyncTestCase):
         self.assertNotExists('dst/file1.txt')
         self.assertNotExists('dst/dir/file4.txt')
 
+    def test_only(self):
+        sync('src', 'dst',
+             action='sync',
+             create=True,
+             only=('^.*\.py$',))
 
-class PyprojTests(SyncTestCase):
+        self.assertNotExists('dst/file1.txt')
+        self.assertExists('dst/file2.py')
+        self.assertNotExists('dst/dir/file4.txt')
+        self.assertNotExists('dst/dir')
+
+
+class SimpleTestsWithDst(DirSyncTestCase):
+
+    init_trees = (('src', trees.simple),)
+
+    def setUp(self):
+        super(SimpleTestsWithDst, self).setUp()
+        sync('src', 'dst', action='sync', create=True)
+
+    def test_ignore_file_rm_dir(self):
+        self.rm('src/file1.txt')
+
+        sync('src', 'dst', action='sync',
+             ignore=('file1.txt',))
+
+        self.assertNotExists('src/file1.txt')
+        self.assertExists('dst/file1.txt')
+
+    def test_ignore_dir(self):
+        self.rm('src/dir')
+
+        sync('src', 'dst', action='sync',
+             ignore=('dir',))
+
+        self.assertNotExists('src/dir')
+        self.assertExists('dst/dir')
+
+
+class PyprojTests(DirSyncTestCase):
 
     init_trees = (('src', trees.pyproj),)
 

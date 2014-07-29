@@ -12,7 +12,7 @@ __test__ = False
 __unittest = True
 
 
-class SyncTestCase(unittest.TestCase):
+class DirSyncTestCase(unittest.TestCase):
     """
     Base class for sync tests
 
@@ -50,6 +50,13 @@ class SyncTestCase(unittest.TestCase):
                     self.mk_tree(*x)
         finally:
             os.chdir(cwd)
+
+    def rm(self, path):
+        """Removes a directory or a file"""
+        if os.path.isdir(path):
+            shutil.rmtree(path)
+        else:
+            os.remove(path)
 
     def assertExists(self, path, msg=None):
         if not os.path.exists(path):
