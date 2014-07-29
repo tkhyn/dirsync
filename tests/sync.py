@@ -39,3 +39,27 @@ class SyncTestsFromSrc(DirSyncTestCase):
         self.assertEqual(file1.read(), 'modifying file')
         file1.close()
 
+
+class SyncTestsWithDest(DirSyncTestCase):
+
+    init_trees = (('src', trees.simple),)
+
+    def setUp(self):
+        super(SyncTestsWithDest, self).setUp()
+        sync('src', 'dst', action='sync', create=True)
+
+    def test_del_src_dir_purge(self):
+        self.rm('src/dir')
+
+        sync('src', 'dst', action='sync', purge=True)
+
+        self.assertNotExists('src/dir')
+        self.assertNotExists('dst/dir')
+
+    def test_del_dst_dir_nopurge(self):
+        self.rm('dst/dir')
+
+        sync('src', 'dst', action='sync')
+
+        self.assertExists('src/dir')
+        self.assertExists('dst/dir')

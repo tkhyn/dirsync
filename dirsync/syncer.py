@@ -289,7 +289,7 @@ class Syncer(object):
                         self.log(str(e))
                         self._numcopyfld += 1
 
-                elif self._copydirection == 1 or self._copydirection == 2:
+                if self._copydirection == 1 or self._copydirection == 2:
                     # target to source
 
                     if not os.path.exists(dir1):
@@ -385,7 +385,7 @@ class Syncer(object):
                         self.log(str(e))
                         return -1
 
-            elif self._copydirection == 1 or self._copydirection == 2:
+            if self._copydirection == 1 or self._copydirection == 2:
 
                 # Update file if file's modification time is older than
                 # source file's modification time, or creation time. Sometimes
