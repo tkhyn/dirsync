@@ -1,12 +1,16 @@
 import os
 import shutil
-from unittest import TestCase
+
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 
 __test__ = False
 __unittest = True
 
 
-class SyncTestCase(TestCase):
+class SyncTestCase(unittest.TestCase):
     """
     Base class for sync tests
 
