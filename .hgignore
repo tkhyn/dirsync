@@ -15,6 +15,9 @@ MANIFEST
 # egg folder (when package is used as a buildout dev egg)
 dirsync.egg-info
 
+# coverage
+tests/.coverage
+
 # python binary files
 *.pyc
 
