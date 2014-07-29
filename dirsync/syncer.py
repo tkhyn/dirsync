@@ -86,8 +86,8 @@ class Syncer(object):
                 "Argument Error: Target directory %s does not exist! " \
                 "(Try the -c option)." % self._dir2)
 
-    def log(self, msg):
-        sys.stdout.write(msg)
+    def log(self, msg=''):
+        sys.stdout.write(msg + '\n')
 
     def _compare(self, dir1, dir2):
 
