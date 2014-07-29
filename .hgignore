@@ -4,6 +4,9 @@ syntax: glob
 bin
 .installed.cfg
 
+# tox directory
+.tox
+
 # distutils generated files and folders
 build
 dist
