@@ -9,7 +9,7 @@ except ImportError:
     import unittest
 
 __test__ = False
-__unittest = True
+__unittest__ = True
 
 
 class DirSyncTestCase(unittest.TestCase):
