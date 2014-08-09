@@ -144,12 +144,13 @@ class ArgParser(ArgumentParser):
         if not cfg.has_section('defaults'):
             return
 
+        defaults = {}
         for name, val in cfg.items('defaults'):
             try:
                 opt = OPTIONS[name][1]
             except KeyError:
-                if opt == 'action' and val in OPTIONS:
-                    OPTIONS[val]['default'] = True
+                if name == 'action' and val in OPTIONS:
+                    defaults['action'] = val
                 continue
 
             curdef = opt.get('default', '')
@@ -160,6 +161,6 @@ class ArgParser(ArgumentParser):
             else:
                 newdef = val.strip('\n').split('\n')
 
-            opt[name] = newdef
+            defaults[name] = newdef
 
-        self.set_defaults(**opt)
+        self.set_defaults(**defaults)
