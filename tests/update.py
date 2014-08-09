@@ -10,12 +10,12 @@ class UpdateTestsWithDst(DirSyncTestCase):
 
     def setUp(self):
         super(UpdateTestsWithDst, self).setUp()
-        sync('src', 'dst', action='sync', create=True)
+        sync('src', 'dst', 'sync', create=True)
 
     def test_del_src_dir(self):
         self.rm('src/dir')
 
-        sync('src', 'dst', action='update')
+        sync('src', 'dst', 'update')
 
         self.assertNotExists('src/dir')
         self.assertExists('dst/dir')

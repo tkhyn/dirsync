@@ -11,8 +11,7 @@ class SyncTestsFromSrc(DirSyncTestCase):
     init_trees = (('src', trees.simple), )
 
     def test_sync_all(self):
-        sync('src', 'dst',
-             action='sync',
+        sync('src', 'dst', 'sync',
              create=True)
 
         self.assertIsFile('dst/file1.txt')
@@ -22,16 +21,14 @@ class SyncTestsFromSrc(DirSyncTestCase):
         self.assertListDir('dst/empty_dir', [])
 
     def test_sync_modif(self):
-        sync('src', 'dst',
-             action='sync',
+        sync('src', 'dst', 'sync',
              create=True)
 
         file1 = open('src/file1.txt', 'r+')
         file1.write('modifying file')
         file1.close()
 
-        result = sync('src', 'dst',
-                      action='sync',
+        result = sync('src', 'dst', 'sync',
                       create=True)
 
         self.assertSetEqual(result, set([os.path.join('dst', 'file1.txt')]))
@@ -46,12 +43,12 @@ class SyncTestsWithDest(DirSyncTestCase):
 
     def setUp(self):
         super(SyncTestsWithDest, self).setUp()
-        sync('src', 'dst', action='sync', create=True)
+        sync('src', 'dst', 'sync', create=True)
 
     def test_del_src_dir_purge(self):
         self.rm('src/dir')
 
-        sync('src', 'dst', action='sync', purge=True)
+        sync('src', 'dst', 'sync', purge=True)
 
         self.assertNotExists('src/dir')
         self.assertNotExists('dst/dir')
@@ -59,7 +56,7 @@ class SyncTestsWithDest(DirSyncTestCase):
     def test_del_dst_dir_nopurge(self):
         self.rm('dst/dir')
 
-        sync('src', 'dst', action='sync')
+        sync('src', 'dst', 'sync')
 
         self.assertExists('src/dir')
         self.assertExists('dst/dir')

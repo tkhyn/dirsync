@@ -56,7 +56,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'dirsync = dirsync.syncer:execute_from_command_line'
+            'dirsync = dirsync.run:from_cmdline'
         ],
     }
 )

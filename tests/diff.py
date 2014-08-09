@@ -18,7 +18,7 @@ class DiffTests(DirSyncTestCase):
 
     def setUp(self):
         super(DiffTests, self).setUp()
-        sync('src', 'dst', action='sync', create=True)
+        sync('src', 'dst', 'sync', create=True)
 
         self.output = StringIO()
         self.saved_stdout = sys.stdout
@@ -32,7 +32,7 @@ class DiffTests(DirSyncTestCase):
     def test_del_src_dir(self):
         self.rm('src/dir')
 
-        sync('src', 'dst', action='diff')
+        sync('src', 'dst', 'diff')
 
         self.assertListEqual(self.output.getvalue().splitlines()[:11],
             ['Difference of directory dst from src',

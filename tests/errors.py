@@ -10,8 +10,8 @@ class ErrorsTests(DirSyncTestCase):
 
     def test_nonexistent_src(self):
         with self.assertRaises(ValueError):
-            sync('srcc', 'dst', action='sync', create=True)
+            sync('srcc', 'dst', 'sync', create=True)
 
     def test_nonexistent_dest(self):
         with self.assertRaises(ValueError):
-            sync('src', 'dstt', action='sync', create=False)
+            sync('src', 'dstt', 'sync', create=False)

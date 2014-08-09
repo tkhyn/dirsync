@@ -2,6 +2,9 @@
 Dirsync options list
 """
 
+import sys
+from argparse import ArgumentParser
+
 options = (
     ('verbose', (('-v'), dict(
         action='store_true',
@@ -77,3 +80,30 @@ options = (
         help='Patterns to ignore (no action)'
     ))),
 )
+
+
+class ArgParser(ArgumentParser):
+
+    def __init__(self, *args, **kwargs):
+        kwargs['description'] = \
+            'Syncer: Command line directory diff, synchronization, ' \
+            'update & copy\n' \
+            'Authors: Anand Pillai (v1.0), Thomas Khyn (v2.x)'
+        super(ArgParser, self).__init__(*args, **kwargs)
+
+        self.add_argument('sourcedir',
+                          action='store',
+                          help='Source directory')
+        self.add_argument('targetdir',
+                          action='store',
+                          help='Target directory')
+        for opt, args in options:
+            self.add_argument('--' + opt, *args[0], **args[1])
+
+    def parse_args(self, args=None, namespace=None):
+        super(ArgParser, self).parse_args(args, namespace)
+
+        if not hasattr(self, 'action'):
+            sys.stdout.write('Argument error: you must select an action using '
+                             'one of the "sync", "update" or "diff" options\n')
+            sys.exit(1)

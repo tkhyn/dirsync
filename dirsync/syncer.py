@@ -33,7 +33,7 @@ class Syncer(object):
 
     prog_name = "dirsync.py"
 
-    def __init__(self, dir1, dir2, **options):
+    def __init__(self, dir1, dir2, action, **options):
 
         self._dir1 = dir1
         self._dir2 = dir2
@@ -65,7 +65,7 @@ class Syncer(object):
 
         # options setup
         self._verbose = options.get('verbose', False)
-        self._mainfunc = getattr(self, options['action'])
+        self._mainfunc = getattr(self, action)
         self._purge = options.get('purge', False)
         self._copydirection = 2 if options.get('nodirection', False) else 0
         self._forcecopy = options.get('force', False)
