@@ -30,12 +30,7 @@ class DirSyncTestCase(unittest.TestCase):
 
     def tearDown(self):
         for x in os.listdir('.'):
-            if os.path.isfile(x):
-                os.remove(x)
-            else:
-                # using absolute path seems to prevent windows error
-                # with python 2.7.2
-                shutil.rmtree(os.path.join(os.getcwd(), x))
+            self.rm(x)
 
     def mk_tree(self, name, structure=()):
         cwd = os.getcwd()
