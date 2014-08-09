@@ -149,8 +149,12 @@ class ArgParser(ArgumentParser):
             try:
                 opt = OPTIONS[name][1]
             except KeyError:
-                if name == 'action' and val in OPTIONS:
-                    defaults['action'] = val
+                if name == 'action':
+                    if val in OPTIONS:
+                        defaults['action'] = val
+                    else:
+                        raise ValueError('Invalid value for "action" option '
+                                         'in configuration file: %s' % val)
                 continue
 
             curdef = opt.get('default', '')
