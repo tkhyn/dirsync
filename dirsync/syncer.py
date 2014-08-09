@@ -601,4 +601,13 @@ def execute_from_command_line():
 
     options = vars(parser.parse_args())
 
-    sync(options.pop('sourcedir'), options.pop('targetdir'), **options)
+    src = options.pop('sourcedir')
+    tgt = options.pop('targetdir')
+    try:
+        action = options.pop('action')
+    except KeyError:
+        sys.stdout.write('Argument error: you must select an action using one '
+                         'of the "sync", "update" or "diff" options\n')
+        sys.exit(1)
+
+    sync(src, tgt, action, **options)
