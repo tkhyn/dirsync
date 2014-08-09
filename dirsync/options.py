@@ -45,19 +45,20 @@ options = (
     ('nodirection', (('-n',), dict(
         action='store_true',
         default=False,
-        help='Create target directory if it does not exist ' \
-             '(By default, target directory should exist).'
+        help='Update files in source directory from target'
+             'directory (only updates target from source by default)'
     ))),
     ('create', (('-c',), dict(
         action='store_true',
         default=False,
-        help='Only compare file\'s modification times for an update '\
-             '(By default, compares source file\'s creation time also).'
+        help='Create target directory if it does not exist ' \
+             '(By default, target directory should exist).'
     ))),
     ('modtime', (('-m',), dict(
         action='store_true',
         default=False,
-        help='Update existing content between sourcedir and targetdir'
+        help='Only compare file\'s modification times for an update '\
+             '(By default, compares source file\'s creation time also).'
     ))),
     ('only', (('-o',), dict(
         action='store', nargs='+',

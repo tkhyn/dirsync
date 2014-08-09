@@ -22,8 +22,8 @@ From python::
    sync(sourcedir, targetdir, **options)
 
 
-Main Options:
--------------
+Main Options
+------------
 
 Chosing one option among the following ones is mandatory
 
@@ -32,21 +32,21 @@ Chosing one option among the following ones is mandatory
 --update, -u            Update existing content between sourcedir and targetdir
 
 
-Additional Options:
--------------------
+Additional Options
+------------------
 
 --verbose, -v           Provide verbose output
 --purge, -p             Purge files when synchronizing (does not purge by
                         default)
 --force, -f             Force copying of files, by trying to change file
                         permissions
---nodirection, -n       Create target directory if it does not exist (By
+--nodirection, -n       Update files in source directory from target
+                        directory (only updates target from source by default)
+--create, -c            Create target directory if it does not exist (By
                         default, target directory should exist.)
---create, -c            Only compare file's modification times for an update
+--modtime, -m           Only compare file's modification times for an update
                         (By default, compares source file's creation time
                         also)
---modtime, -m           Update existing content between sourcedir and
-                        targetdir
 --ignore, -x patterns   Regex patterns to ignore
 --only, -o patterns     Regex patterns to include (exclude every other)
 --exclude, -e patterns  Regex patterns to exclude
