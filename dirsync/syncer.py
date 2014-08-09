@@ -557,47 +557,22 @@ def sync(src_dir, tgt_dir, action, **options):
 
 def execute_from_command_line():
     import argparse
+    from .options import options
 
     parser = argparse.ArgumentParser(
-        description='Syncer: Command line directory diff, synchronization, '\
-                    'update & copy\n'\
+        description='Syncer: Command line directory diff, synchronization, '
+                    'update & copy\n'
                     'Authors: Anand Pillai (v1.0), Thomas Khyn (v2.x)')
 
-    parser.add_argument('sourcedir', action='store', help='Source directory')
-    parser.add_argument('targetdir', action='store', help='Target directory')
+    parser.add_argument('sourcedir',
+                        action='store',
+                        help='Source directory')
+    parser.add_argument('targetdir',
+                        action='store',
+                        help='Target directory')
 
-    parser.add_argument('--verbose', '-v', action='store_true', default=False,
-        help='Provide verbose output')
-    parser.add_argument('--diff', '-d', action='store_const', dest='action',
-        const='diff', default=False,
-        help='Only report difference between sourcedir and targetdir')
-    parser.add_argument('--sync', '-s', action='store_const', dest='action',
-        const='sync', default=False,
-        help='Synchronize content between sourcedir and targetdir')
-    parser.add_argument('--update', '-u', action='store_const', dest='action',
-        const='update', default=False,
-        help='Update existing content between sourcedir and targetdir')
-    parser.add_argument('--purge', '-p', action='store_true', default=False,
-        help='Purge files when synchronizing (does not purge by default)')
-    parser.add_argument('--force', '-f', action='store_true', default=False,
-        help='Force copying of files, by trying to change file permissions')
-    parser.add_argument('--nodirection', '-n', action='store_true',
-        default=False,
-        help='Create target directory if it does not exist ' \
-             '(By default, target directory should exist.)')
-    parser.add_argument('--create', '-c', action='store_true', default=False,
-        help='Only compare file\'s modification times for an update '\
-             '(By default, compares source file\'s creation time also)')
-    parser.add_argument('--modtime', '-m', action='store_true', default=False,
-        help='Update existing content between sourcedir and targetdir')
-    parser.add_argument('--only', '-o', action='store', nargs='+', default=[],
-        help='Patterns to exclusively include (exclude every other)')
-    parser.add_argument('--exclude', '-e', action='store', nargs='+',
-        default=[], help='Patterns to exclude')
-    parser.add_argument('--include', '-i', action='store', nargs='+',
-        default=[], help='Patterns to include (with precedence over excludes)')
-    parser.add_argument('--ignore', '-x', action='store', nargs='+',
-        default=[], help='Patterns to ignore (no action)')
+    for opt, args in options:
+        parser.add_argument('--' + opt, *args[0], **args[1])
 
     options = vars(parser.parse_args())
 
