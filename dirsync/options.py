@@ -2,8 +2,19 @@
 Dirsync options list
 """
 
-import sys
+import os
+from collections import OrderedDict
 from argparse import ArgumentParser
+try:
+    from ConfigParser import ConfigParser  # python 2
+except ImportError:
+    from configparser import ConfigParser  # python 3
+
+
+from six import string_types, iteritems
+
+__all__ = ['OPTIONS', 'ArgParser']
+
 
 options = (
     ('verbose', (('-v',), dict(
@@ -82,6 +93,9 @@ options = (
 )
 
 
+OPTIONS = OrderedDict(options)
+
+
 class ArgParser(ArgumentParser):
 
     def __init__(self, *args, **kwargs):
@@ -101,6 +115,7 @@ class ArgParser(ArgumentParser):
             self.add_argument('--' + opt, *args[0], **args[1])
 
     def parse_args(self, args=None, namespace=None):
+        self.load_cfg()
         parsed = super(ArgParser, self).parse_args(args, namespace)
 
         if parsed.action == False:
@@ -108,3 +123,40 @@ class ArgParser(ArgumentParser):
                              'one of the "sync", "update" or "diff" options\n')
 
         return parsed
+
+    def load_cfg(self):
+        """
+        Load defaults from configuration file:
+         - from a current working directory dirsync.cfg file
+         - and/or a %HOME%/.dirsync user config file
+        """
+
+        cfg_files = [os.path.join(os.getcwd(), 'dirsync.cfg')]
+        home_dir = os.environ.get('HOME', None)
+        if home_dir:
+            # inserting in first position so that it can be overriden by
+            # cwd config file
+            cfg_files.insert(0, os.path.join(home_dir, '.dirsync'))
+
+        cfg = ConfigParser()
+        cfg.read(cfg_files)
+
+        for name, val in cfg.items('defaults'):
+            try:
+                opt = OPTIONS[name][1]
+            except KeyError:
+                if opt == 'action' and val in OPTIONS:
+                    OPTIONS[val]['default'] = True
+                continue
+
+            curdef = opt.get('default', '')
+            if isinstance(curdef, bool):
+                newdef = val not in ('0', 'False', 'false')
+            elif isinstance(curdef, string_types):
+                newdef = val
+            else:
+                newdef = val.strip('\n').split('\n')
+
+            opt[name] = newdef
+
+        self.set_defaults(**opt)
