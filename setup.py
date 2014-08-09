@@ -52,7 +52,7 @@ setup(
     packages=find_packages(exclude=('tests',)),
     include_package_data=True,
     package_data={
-        '': ['LICENSE.txt', 'README.rst']
+        '': ['LICENSE.txt', 'README.rst', 'CHANGES.rst']
     },
     entry_points={
         'console_scripts': [
