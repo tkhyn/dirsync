@@ -20,21 +20,12 @@ class DiffTests(DirSyncTestCase):
         super(DiffTests, self).setUp()
         sync('src', 'dst', 'sync', create=True)
 
-        self.output = StringIO()
-        self.saved_stdout = sys.stdout
-        sys.stdout = self.output
-
-    def tearDown(self):
-        self.output.close()
-        sys.stdout = self.saved_stdout
-        super(DiffTests, self).tearDown()
-
     def test_del_src_dir(self):
         self.rm('src/dir')
 
-        sync('src', 'dst', 'diff')
+        sync('src', 'dst', 'diff', logger=self.logger)
 
-        self.assertListEqual(self.output.getvalue().splitlines()[:11],
+        self.assertListEqual(self.output.splitlines()[:11],
             ['Difference of directory dst from src',
              '',
              'Only in dst',

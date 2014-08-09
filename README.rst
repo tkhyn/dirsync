@@ -91,6 +91,16 @@ Example config file::
    create = True
 
 
+Custom logger
+-------------
+
+From python, you may not want to have the output sent to ``stdout``. To do so,
+you can simply pass your custom logger via the ``logger`` keyword argument of
+the ``sync`` function::
+
+   sync(sourcedir, targetdir, action, logger=my_logger, **options)
+
+
 .. |copyright| unicode:: 0xA9
 
 .. _`Python robocopier`: http://code.activestate.com/recipes/231501-python-robocopier-advanced-directory-synchronizati/

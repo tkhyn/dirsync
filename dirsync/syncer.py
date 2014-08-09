@@ -17,6 +17,7 @@ import stat
 import time
 import shutil
 import re
+import logging
 
 
 class DCMP(object):
@@ -31,9 +32,17 @@ class Syncer(object):
     """ An advanced directory synchronisation, update
     and file copying class """
 
-    prog_name = "dirsync.py"
-
     def __init__(self, dir1, dir2, action, **options):
+
+        self.logger = options.get('logger', None)
+        if not self.logger:
+            # configure default logger to stdout
+            log = logging.getLogger('dirsync')
+            log.setLevel(logging.INFO)
+            hdl = logging.StreamHandler(sys.stdout)
+            hdl.setFormatter(logging.Formatter('%(message)s'))
+            log.addHandler(hdl)
+            self.logger = log
 
         self._dir1 = dir1
         self._dir2 = dir2
@@ -91,7 +100,7 @@ class Syncer(object):
                 "(Try the -c option)." % self._dir2)
 
     def log(self, msg=''):
-        sys.stdout.write(msg + '\n')
+        self.logger.info(msg)
 
     def _compare(self, dir1, dir2):
 
