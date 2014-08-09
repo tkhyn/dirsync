@@ -445,7 +445,6 @@ class Syncer(object):
 
         if self._dcmp.left_only:
             self.log('Only in %s' % dir1)
-            files = []
             for x in sorted(self._dcmp.left_only):
                 self.log('>> %s' % x)
             self.log('')
