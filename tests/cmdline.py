@@ -2,6 +2,8 @@
 Command line options tests
 """
 
+import os
+
 from six import iteritems
 
 from dirsync.options import ArgParser
@@ -44,7 +46,7 @@ class CfgFiles(CmdLineTests):
     init_trees = (('src', trees.simple),)
 
     def mk_cfg_file(self, **options):
-        cfg_file = open('dirsync.cfg', 'w')
+        cfg_file = open(os.path.join('src', '.dirsync'), 'w')
         cfg_file.write('[defaults]\n')
         for opt, val in iteritems(options):
             cfg_file.write('%s = %s\n' % (opt, str(val)))
