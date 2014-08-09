@@ -101,9 +101,10 @@ class ArgParser(ArgumentParser):
             self.add_argument('--' + opt, *args[0], **args[1])
 
     def parse_args(self, args=None, namespace=None):
-        super(ArgParser, self).parse_args(args, namespace)
+        parsed = super(ArgParser, self).parse_args(args, namespace)
 
-        if not hasattr(self, 'action'):
-            sys.stdout.write('Argument error: you must select an action using '
+        if parsed.action == False:
+            raise ValueError('Argument error: you must select an action using '
                              'one of the "sync", "update" or "diff" options\n')
-            sys.exit(1)
+
+        return parsed
