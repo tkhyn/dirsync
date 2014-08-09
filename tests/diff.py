@@ -1,10 +1,4 @@
 import os
-import sys
-
-try:
-    from StringIO import StringIO  # py2.x
-except ImportError:
-    from io import StringIO  # py3.x
 
 from .base import DirSyncTestCase
 from . import trees

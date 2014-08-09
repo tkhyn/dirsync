@@ -4,8 +4,13 @@ Dirsync options list
 
 import os
 import sys
-from collections import OrderedDict
 from argparse import ArgumentParser
+
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
+
 try:
     from ConfigParser import ConfigParser  # python 2
 except ImportError:

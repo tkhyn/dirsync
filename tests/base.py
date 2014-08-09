@@ -2,9 +2,7 @@ import os
 import shutil
 import logging
 
-from StringIO import StringIO
-
-from six import string_types
+from six import string_types, StringIO
 
 try:
     import unittest2 as unittest
