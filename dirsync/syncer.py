@@ -74,8 +74,12 @@ class Syncer(object):
 
         self._ignore = options.get('ignore', [])
         self._only = options.get('only', [])
-        self._exclude = options.get('exclude', [])
+        self._exclude = list(options.get('exclude', []))
         self._include = options.get('include', [])
+
+        # excludes .dirsync file by default, must explicitly be in include
+        # not to be excluded
+        self._exclude.append('^\.dirsync$')
 
         if not os.path.isdir(self._dir1):
             raise ValueError(

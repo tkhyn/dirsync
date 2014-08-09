@@ -62,3 +62,5 @@ class CfgFiles(CmdLineTests):
         self.assertListDir('dst/dir', ['file4.txt'])
         self.assertIsDir('dst/empty_dir')
         self.assertListDir('dst/empty_dir', [])
+
+        self.assertNotExists('dst/.dirsync')

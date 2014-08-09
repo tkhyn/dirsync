@@ -72,6 +72,11 @@ two configuration files, by order or priority (the last takes precedence)::
     %HOME%/.dirsync
     source/directory/.dirsync
 
+.. warning::
+   Any ``source/directory/.dirsync`` file is automatically excluded from the
+   files to compare. You have to explicitly include using the ``--include``
+   option it if you want it to be covered by the comparison.
+
 The command line options always override the values defined in the
 configuration files.
 
