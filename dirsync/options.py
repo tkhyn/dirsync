@@ -2,8 +2,19 @@
 Dirsync options list
 """
 
+import os
 import sys
+from collections import OrderedDict
 from argparse import ArgumentParser
+try:
+    from ConfigParser import ConfigParser  # python 2
+except ImportError:
+    from configparser import ConfigParser  # python 3
+
+from six import string_types
+
+__all__ = ['OPTIONS', 'ArgParser']
+
 
 options = (
     ('verbose', (('-v',), dict(
@@ -83,6 +94,9 @@ options = (
 )
 
 
+OPTIONS = OrderedDict(options)
+
+
 class ArgParser(ArgumentParser):
 
     def __init__(self, *args, **kwargs):
@@ -102,6 +116,11 @@ class ArgParser(ArgumentParser):
             self.add_argument('--' + opt, *args[0], **args[1])
 
     def parse_args(self, args=None, namespace=None):
+        if args or len(sys.argv) > 1:
+            # if no args nor sys.argv, we don't bother loading the config as
+            # there are missing args and super().parse_args below will raise an
+            # exception
+            self.load_cfg(args[0] if args else sys.argv[1])
         parsed = super(ArgParser, self).parse_args(args, namespace)
 
         if parsed.action == False:
@@ -109,3 +128,48 @@ class ArgParser(ArgumentParser):
                              'one of the "sync", "update" or "diff" options\n')
 
         return parsed
+
+    def load_cfg(self, src_dir):
+        """
+        Load defaults from configuration file:
+         - from the source/directory/.dirsync file (prioritary)
+         - and/or a %HOME%/.dirsync user config file
+        """
+
+        cfg_files = [os.path.abspath(os.path.join(src_dir, '.dirsync'))]
+        home_dir = os.environ.get('HOME', None)
+        if home_dir:
+            # inserting in first position so that it can be overriden by
+            # cwd config file
+            cfg_files.insert(0, os.path.join(home_dir, '.dirsync'))
+
+        cfg = ConfigParser()
+        cfg.read(cfg_files)
+
+        if not cfg.has_section('defaults'):
+            return
+
+        defaults = {}
+        for name, val in cfg.items('defaults'):
+            try:
+                opt = OPTIONS[name][1]
+            except KeyError:
+                if name == 'action':
+                    if val in OPTIONS:
+                        defaults['action'] = val
+                    else:
+                        raise ValueError('Invalid value for "action" option '
+                                         'in configuration file: %s' % val)
+                continue
+
+            curdef = opt.get('default', '')
+            if isinstance(curdef, bool):
+                newdef = val not in ('0', 'False', 'false')
+            elif isinstance(curdef, string_types):
+                newdef = val
+            else:
+                newdef = val.strip('\n').split('\n')
+
+            defaults[name] = newdef
+
+        self.set_defaults(**defaults)

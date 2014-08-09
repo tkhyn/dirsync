@@ -19,7 +19,7 @@ From the command line::
 From python::
 
    from dirsync import sync
-   sync(sourcedir, targetdir, **options)
+   sync(sourcedir, targetdir, action, **options)
 
 
 Main Options
@@ -30,6 +30,10 @@ Chosing one option among the following ones is mandatory
 --diff, -d              Only report difference between sourcedir and targetdir
 --sync, -s              Synchronize content between sourcedir and targetdir
 --update, -u            Update existing content between sourcedir and targetdir
+
+If you use one of the above options (e.g. ``sync``) most of the time, you
+may consider defining the ``action`` option in a `Configuration file`_ parsed
+by dirsync.
 
 
 Additional Options
@@ -52,6 +56,40 @@ Additional Options
 --exclude, -e patterns  Regex patterns to exclude
 --include, -i patterns  Regex patterns to include (with precedence over
                         excludes)
+
+
+Configuration file
+------------------
+
+.. note::
+   Configuration files are only used when using the command line, and ignored
+   when dirsync is called from within Python.
+
+If you want to use predefined options all the time, or if you need specific
+options when 'dirsyncing' a specific source directory, dirsync looks for
+two configuration files, by order or priority (the last takes precedence)::
+
+    %HOME%/.dirsync
+    source/directory/.dirsync
+
+.. warning::
+   Any ``source/directory/.dirsync`` file is automatically excluded from the
+   files to compare. You have to explicitly include using the ``--include``
+   option it if you want it to be covered by the comparison.
+
+The command line options always override the values defined in the
+configuration files.
+
+The configuration files must have a ``defaults`` section, and the options are
+as defined above. The only exception is for the option ``action``, which can
+take 3 values ``diff``, ``sync`` or ``update``.
+
+Example config file::
+
+   [defaults]
+   action = sync
+   create = True
+
 
 .. |copyright| unicode:: 0xA9
 
