@@ -19,6 +19,8 @@ import shutil
 import re
 import logging
 
+from .options import OPTIONS
+
 
 class DCMP(object):
     """Dummy object for directory comparison data storage"""
@@ -72,19 +74,23 @@ class Syncer(object):
         self._numdelffld = 0
         self._numdeldfld = 0
 
-        # options setup
-        self._verbose = options.get('verbose', False)
         self._mainfunc = getattr(self, action)
-        self._purge = options.get('purge', False)
-        self._copydirection = 2 if options.get('nodirection', False) else 0
-        self._forcecopy = options.get('force', False)
-        self._maketarget = options.get('create', False)
-        self._modtimeonly = options.get('modtime', False)
 
-        self._ignore = options.get('ignore', [])
-        self._only = options.get('only', [])
-        self._exclude = list(options.get('exclude', []))
-        self._include = options.get('include', [])
+        # options setup
+        def get_option(name):
+            return options.get(name, OPTIONS[name][1]['default'])
+
+        self._verbose = get_option('verbose')
+        self._purge = get_option('purge')
+        self._copydirection = 2 if get_option('nodirection') else 0
+        self._forcecopy = get_option('force')
+        self._maketarget = get_option('create')
+        self._modtimeonly = get_option('modtime')
+
+        self._ignore = get_option('ignore')
+        self._only = get_option('only')
+        self._exclude = list(get_option('exclude'))
+        self._include = get_option('include')
 
         # excludes .dirsync file by default, must explicitly be in include
         # not to be excluded
