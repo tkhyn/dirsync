@@ -141,6 +141,9 @@ class ArgParser(ArgumentParser):
         cfg = ConfigParser()
         cfg.read(cfg_files)
 
+        if not cfg.has_section('defaults'):
+            return
+
         for name, val in cfg.items('defaults'):
             try:
                 opt = OPTIONS[name][1]
