@@ -2,6 +2,11 @@
 Dirsync options list
 """
 
+from collections import OrderedDict
+
+__all__ = ['OPTIONS']
+
+
 options = (
     ('verbose', (('-v'), dict(
         action='store_true',
@@ -77,3 +82,6 @@ options = (
         help='Patterns to ignore (no action)'
     ))),
 )
+
+
+OPTIONS = OrderedDict(options)
