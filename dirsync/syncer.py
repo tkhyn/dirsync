@@ -189,6 +189,7 @@ class Syncer(object):
                     self.log('Creating directory %s' % self._dir2)
                 try:
                     os.makedirs(self._dir2)
+                    self._numnewdirs += 1
                 except Exception as e:
                     self.log(str(e))
                     return None
@@ -248,6 +249,7 @@ class Syncer(object):
                 to_make = os.path.join(self._dir2, f1)
                 if not os.path.exists(to_make):
                     os.makedirs(to_make)
+                    self._numnewdirs += 1
                     self._added.append(to_make)
 
         # common files/directories
@@ -290,6 +292,7 @@ class Syncer(object):
                             os.chmod(os.path.dirname(dir2_root), 1911)
                         try:
                             os.makedirs(dir2)
+                            self._numnewdirs += 1
                         except OSError as e:
                             self.log(str(e))
                             self._numdirsfld += 1
@@ -319,6 +322,7 @@ class Syncer(object):
 
                         try:
                             os.makedirs(dir1)
+                            self._numnewdirs += 1
                         except OSError as e:
                             self.log(str(e))
                             self._numdirsfld += 1
