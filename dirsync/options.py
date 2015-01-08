@@ -21,7 +21,13 @@ from six import string_types
 
 from .version import __pkg_name__
 
-__all__ = ['OPTIONS', 'ArgParser']
+__all__ = ['USER_CFG_FILE', 'DEFAULT_USER_CFG', 'OPTIONS', 'ArgParser']
+
+USER_CFG_FILE = '~/.%s' % __pkg_name__
+DEFAULT_USER_CFG = """# %s default options
+[defaults]
+action = sync
+""" % __pkg_name__
 
 
 options = (
@@ -143,12 +149,9 @@ class ArgParser(ArgumentParser):
          - and/or a %HOME%/.dirsync user config file
         """
 
-        cfg_files = [os.path.abspath(os.path.join(src_dir, '.dirsync'))]
-        home_dir = os.environ.get('HOME', None)
-        if home_dir:
-            # inserting in first position so that it can be overriden by
-            # cwd config file
-            cfg_files.insert(0, os.path.join(home_dir, '.dirsync'))
+        # last files override previous ones
+        cfg_files = [os.path.expanduser(USER_CFG_FILE),
+                     os.path.abspath(os.path.join(src_dir, '.dirsync'))]
 
         cfg = ConfigParser()
         cfg.read(cfg_files)
