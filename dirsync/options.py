@@ -78,11 +78,11 @@ options = (
         default=False,
         help='Synchronize files from target to source directory as well.'
     ))),
-    ('modtime', (('-m',), dict(
+    ('ctime', ((), dict(
         action='store_true',
         default=False,
-        help='Only compare file\'s modification times for an update '\
-             '(By default, compares source file\'s creation time also).'
+        help='Also takes into account the source file\'s creation time '
+             '(Windows) or the source file\'s last metadata change (Unix)'
     ))),
     ('only', (('-o',), dict(
         action='store', nargs='+',

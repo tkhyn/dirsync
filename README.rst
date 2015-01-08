@@ -48,9 +48,9 @@ Additional Options
                         directory (only updates target from source by default)
 --create, -c            Create target directory if it does not exist (By
                         default, target directory should exist.)
---modtime, -m           Only compare file's modification times for an update
-                        (By default, compares source file's creation time
-                        also)
+--ctime                 Also takes into account the source file\'s creation
+                        time (Windows) or the source file\'s last metadata
+                        change (Unix)
 --ignore, -x patterns   Regex patterns to ignore
 --only, -o patterns     Regex patterns to include (exclude every other)
 --exclude, -e patterns  Regex patterns to exclude

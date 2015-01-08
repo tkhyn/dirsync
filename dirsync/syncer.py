@@ -87,7 +87,7 @@ class Syncer(object):
         self._copydirection = 2 if get_option('twoway') else 0
         self._forcecopy = get_option('force')
         self._maketarget = get_option('create')
-        self._modtimeonly = get_option('modtime')
+        self._use_ctime = get_option('ctime')
 
         self._ignore = get_option('ignore')
         self._only = get_option('only')
@@ -354,11 +354,11 @@ class Syncer(object):
         if file1 (source) is more recent than file2 (target) """
 
         mtime_cmp = int((filest1.st_mtime - filest2.st_mtime) * 1000) > 0
-        if self._modtimeonly:
-            return mtime_cmp
-        else:
+        if self._use_ctime:
             return mtime_cmp or \
                    int((filest1.st_ctime - filest2.st_mtime) * 1000) > 0
+        else:
+            return mtime_cmp
 
     def _update(self, filename, dir1, dir2):
         """ Private function for updating a file based on

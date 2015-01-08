@@ -88,7 +88,7 @@ class PyprojTests(DirSyncTestCase):
             'sync',
             purge=True,
             create=True,
-            modtime=True,
+            ctime=False,
             exclude=(r'.*\.pyc',
                      r'^fab.*\.py$',
                      # any dir or file name starting with _ or .
