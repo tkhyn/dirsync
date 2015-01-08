@@ -99,13 +99,12 @@ class Syncer(object):
         self._exclude.append('^\.dirsync$')
 
         if not os.path.isdir(self._dir1):
-            raise ValueError(
-                "Argument Error: Source directory does not exist!")
+            raise ValueError("Error: Source directory does not exist.")
 
         if not self._maketarget and not os.path.isdir(self._dir2):
             raise ValueError(
-                "Argument Error: Target directory %s does not exist! " \
-                "(Try the -c option)." % self._dir2)
+                "Error: Target directory %s does not exist. "
+                "(Try the -c or --create option to create it)." % self._dir2)
 
     def log(self, msg=''):
         self.logger.info(msg)

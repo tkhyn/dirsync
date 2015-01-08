@@ -2,6 +2,8 @@
 dirsync's functions
 """
 
+import sys
+
 from .syncer import Syncer
 
 
@@ -18,4 +20,9 @@ def sync(sourcedir, targetdir, action, **options):
 
 def from_cmdline():
     from .options import ArgParser
-    sync(**vars(ArgParser().parse_args()))
+
+    try:
+        sync(**vars(ArgParser().parse_args()))
+    except Exception, e:
+        sys.stdout.write(str(e) + '\n')
+        sys.exit(2)
