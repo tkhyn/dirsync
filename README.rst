@@ -69,8 +69,12 @@ If you want to use predefined options all the time, or if you need specific
 options when 'dirsyncing' a specific source directory, dirsync looks for
 two configuration files, by order or priority (the last takes precedence)::
 
-    %HOME%/.dirsync
+    ~/.dirsync
     source/directory/.dirsync
+
+.. note::
+   A ~/.dirsync configuration file is automatically created the first time
+   dirsync is ran from the comman line. It enables ``sync`` mode by default.
 
 .. warning::
    Any ``source/directory/.dirsync`` file is automatically excluded from the
