@@ -42,7 +42,7 @@ options = (
         dest='action',
         const='sync',
         default=False,
-        help='Synchronize content between sourcedir and targetdir'
+        help='Synchronize content from sourcedir to targetdir'
     ))),
     ('update', (('-u',), dict(
         action='store_const',
@@ -61,7 +61,7 @@ options = (
         default=False,
         help='Force copying of files, by trying to change file permissions'
     ))),
-    ('nodirection', (('-n',), dict(
+    ('twoway', (('-2',), dict(
         action='store_true',
         default=False,
         help='Update files in source directory from target'
@@ -70,8 +70,7 @@ options = (
     ('create', (('-c',), dict(
         action='store_true',
         default=False,
-        help='Create target directory if it does not exist ' \
-             '(By default, target directory should exist).'
+        help='Synchronize files from target to source directory as well.'
     ))),
     ('modtime', (('-m',), dict(
         action='store_true',

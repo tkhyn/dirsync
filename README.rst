@@ -44,7 +44,7 @@ Additional Options
                         default)
 --force, -f             Force copying of files, by trying to change file
                         permissions
---nodirection, -n       Update files in source directory from target
+--twoway, -2            Update files in source directory from target
                         directory (only updates target from source by default)
 --create, -c            Create target directory if it does not exist (By
                         default, target directory should exist.)

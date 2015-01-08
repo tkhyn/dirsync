@@ -84,7 +84,7 @@ class Syncer(object):
 
         self._verbose = get_option('verbose')
         self._purge = get_option('purge')
-        self._copydirection = 2 if get_option('nodirection') else 0
+        self._copydirection = 2 if get_option('twoway') else 0
         self._forcecopy = get_option('force')
         self._maketarget = get_option('create')
         self._modtimeonly = get_option('modtime')
@@ -110,6 +110,7 @@ class Syncer(object):
         self.logger.info(msg)
 
     def _compare(self, dir1, dir2):
+        """ Compare contents of two directories """
 
         left = set()
         right = set()
