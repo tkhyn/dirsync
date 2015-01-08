@@ -550,14 +550,19 @@ class Syncer(object):
             self.log('%d files were updated by timestamp.' % self._numupdates)
 
         # Failure stats
-        self.log('\n')
+        self.log('')
         if self._numcopyfld:
-            self.log('%d files could not be copied.' % self._numcopyfld)
+            self.log('there were errors in copying %d files.'
+                     % self._numcopyfld)
         if self._numdirsfld:
-            self.log('%d directories could not be created.' % self._numdirsfld)
+            self.log('there were errors in creating %d directories.'
+                     % self._numdirsfld)
         if self._numupdsfld:
-            self.log('%d files could not be updated.' % self._numupdsfld)
+            self.log('there were errors in updating %d files.'
+                     % self._numupdsfld)
         if self._numdeldfld:
-            self.log('%d directories could not be purged.' % self._numdeldfld)
+            self.log('there were errors in purging %d directories.'
+                     % self._numdeldfld)
         if self._numdelffld:
-            self.log('%d files could not be purged.' % self._numdelffld)
+            self.log('there were errors in purging %d files.'
+                     % self._numdelffld)
