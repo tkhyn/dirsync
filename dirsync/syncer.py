@@ -1,5 +1,5 @@
 """
-Python directory syncer
+dirsync
 
 Report the difference in content
 of two directories, synchronise or
@@ -7,6 +7,7 @@ update a directory from another, taking
 into account time-stamps of files etc.
 
 (c) Thomas Khyn 2014
+
 Based on Robocopy by Anand B Pillai
 
 """
@@ -20,6 +21,7 @@ import re
 import logging
 
 from .options import OPTIONS
+from .version import __pkg_name__
 
 
 class DCMP(object):
@@ -536,7 +538,7 @@ class Syncer(object):
         # We need only the first 4 significant digits
         tt = (str(self._endtime - self._starttime))[:4]
 
-        self.log('\nPython syncer finished in %s seconds.' % tt)
+        self.log('\n%s finished in %s seconds.' % (__pkg_name__, tt))
         self.log('%d directories parsed, %d files copied' %
                  (self._numdirs, self._numfiles))
         if self._numdelfiles:

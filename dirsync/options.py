@@ -18,6 +18,9 @@ except ImportError:
 
 from six import string_types
 
+
+from .version import __pkg_name__
+
 __all__ = ['OPTIONS', 'ArgParser']
 
 
@@ -106,9 +109,9 @@ class ArgParser(ArgumentParser):
 
     def __init__(self, *args, **kwargs):
         kwargs['description'] = \
-            'Syncer: Command line directory diff, synchronization, ' \
+            '%s: Command line directory diff, synchronization, ' \
             'update & copy\n' \
-            'Authors: Anand Pillai (v1.0), Thomas Khyn (v2.x)'
+            'Authors: Anand Pillai (v1.0), Thomas Khyn (v2.x)' % __pkg_name__
         super(ArgParser, self).__init__(*args, **kwargs)
 
         self.add_argument('sourcedir',
