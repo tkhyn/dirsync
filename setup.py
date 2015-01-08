@@ -12,7 +12,6 @@ import os
 # imports __version__ and __version_info__ variables
 exec(open('dirsync/version.py').read())
 
-
 INC_PACKAGES = __pkg_name__,  # string or tuple of strings
 EXC_PACKAGES = ()  # tuple of strings
 
@@ -50,11 +49,7 @@ setup(
         'Topic :: System :: Archiving :: Backup',
         'Topic :: System :: Archiving :: Mirroring'
     ],
-    packages=find_packages(exclude=('tests',)),
-    include_package_data=True,
-    package_data={
-        '': ['LICENSE.txt', 'README.rst', 'CHANGES.rst']
-    },
+    packages=find_packages(),
     entry_points={
         'console_scripts': [
             'dirsync = dirsync.run:from_cmdline'
