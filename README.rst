@@ -17,4 +17,6 @@ based on `Python robocopier`_ by Anand B Pillai
    dirsync_
 
 
+.. |copyright| unicode:: 0xA9
+
 .. _dirsync: https://bitbucket.org/tkhyn/dirsync
