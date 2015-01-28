@@ -2,9 +2,6 @@
 Project versionning info
 """
 
-import os
-
-
 __pkg_name__ = 'dirsync'
 
 __version_info__ = (2, 2, 0, 'alpha', 0)
@@ -36,6 +33,7 @@ def get_hg_chgset():
         # python 3
         DEVNULL = subprocess.DEVNULL
     except AttributeError:
+        import os
         DEVNULL = open(os.devnull, 'wb')
 
     try:
