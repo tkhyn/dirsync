@@ -1,19 +1,19 @@
 """
 dirsync
 Advanced directory tree synchronisation tool
-(c) 2014 Thomas Khyn
-(c) 2003 Anand B Pillai
+(c) 2014-2015 Thomas Khyn
+(c) 2003-2015 Anand B Pillai
 MIT license (see LICENSE.txt)
 """
 
 from setuptools import setup, find_packages
 import os
 
-INC_PACKAGES = 'dirsync',  # string or tuple of strings
-EXC_PACKAGES = ()  # tuple of strings
-
 # imports __version__ and __version_info__ variables
 exec(open('dirsync/version.py').read())
+
+INC_PACKAGES = __pkg_name__,  # string or tuple of strings
+EXC_PACKAGES = ()  # tuple of strings
 
 dev_status = __version_info__[3]
 if dev_status == 'alpha' and not __version_info__[4]:
@@ -26,7 +26,7 @@ DEV_STATUS = {'pre': '2 - Pre-Alpha',
               'final': '5 - Production/Stable'}
 
 setup(
-    name='dirsync',
+    name=__pkg_name__,
     version=__version__,
     description='Advanced directory tree synchronisation tool',
     long_description=open(os.path.join('README.rst')).read(),
@@ -49,11 +49,7 @@ setup(
         'Topic :: System :: Archiving :: Backup',
         'Topic :: System :: Archiving :: Mirroring'
     ],
-    packages=find_packages(exclude=('tests',)),
-    include_package_data=True,
-    package_data={
-        '': ['LICENSE.txt', 'README.rst', 'CHANGES.rst']
-    },
+    packages=find_packages(),
     entry_points={
         'console_scripts': [
             'dirsync = dirsync.run:from_cmdline'

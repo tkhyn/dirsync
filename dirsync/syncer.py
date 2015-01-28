@@ -1,5 +1,5 @@
 """
-Python directory syncer
+dirsync
 
 Report the difference in content
 of two directories, synchronise or
@@ -7,6 +7,7 @@ update a directory from another, taking
 into account time-stamps of files etc.
 
 (c) Thomas Khyn 2014
+
 Based on Robocopy by Anand B Pillai
 
 """
@@ -20,6 +21,7 @@ import re
 import logging
 
 from .options import OPTIONS
+from .version import __pkg_name__
 
 
 class DCMP(object):
@@ -82,10 +84,10 @@ class Syncer(object):
 
         self._verbose = get_option('verbose')
         self._purge = get_option('purge')
-        self._copydirection = 2 if get_option('nodirection') else 0
+        self._copydirection = 2 if get_option('twoway') else 0
         self._forcecopy = get_option('force')
         self._maketarget = get_option('create')
-        self._modtimeonly = get_option('modtime')
+        self._use_ctime = get_option('ctime')
 
         self._ignore = get_option('ignore')
         self._only = get_option('only')
@@ -97,18 +99,18 @@ class Syncer(object):
         self._exclude.append('^\.dirsync$')
 
         if not os.path.isdir(self._dir1):
-            raise ValueError(
-                "Argument Error: Source directory does not exist!")
+            raise ValueError("Error: Source directory does not exist.")
 
         if not self._maketarget and not os.path.isdir(self._dir2):
             raise ValueError(
-                "Argument Error: Target directory %s does not exist! " \
-                "(Try the -c option)." % self._dir2)
+                "Error: Target directory %s does not exist. "
+                "(Try the -c or --create option to create it)." % self._dir2)
 
     def log(self, msg=''):
         self.logger.info(msg)
 
     def _compare(self, dir1, dir2):
+        """ Compare contents of two directories """
 
         left = set()
         right = set()
@@ -188,6 +190,7 @@ class Syncer(object):
                     self.log('Creating directory %s' % self._dir2)
                 try:
                     os.makedirs(self._dir2)
+                    self._numnewdirs += 1
                 except Exception as e:
                     self.log(str(e))
                     return None
@@ -247,6 +250,7 @@ class Syncer(object):
                 to_make = os.path.join(self._dir2, f1)
                 if not os.path.exists(to_make):
                     os.makedirs(to_make)
+                    self._numnewdirs += 1
                     self._added.append(to_make)
 
         # common files/directories
@@ -289,6 +293,7 @@ class Syncer(object):
                             os.chmod(os.path.dirname(dir2_root), 1911)
                         try:
                             os.makedirs(dir2)
+                            self._numnewdirs += 1
                         except OSError as e:
                             self.log(str(e))
                             self._numdirsfld += 1
@@ -318,6 +323,7 @@ class Syncer(object):
 
                         try:
                             os.makedirs(dir1)
+                            self._numnewdirs += 1
                         except OSError as e:
                             self.log(str(e))
                             self._numdirsfld += 1
@@ -348,11 +354,11 @@ class Syncer(object):
         if file1 (source) is more recent than file2 (target) """
 
         mtime_cmp = int((filest1.st_mtime - filest2.st_mtime) * 1000) > 0
-        if self._modtimeonly:
-            return mtime_cmp
-        else:
+        if self._use_ctime:
             return mtime_cmp or \
                    int((filest1.st_ctime - filest2.st_mtime) * 1000) > 0
+        else:
+            return mtime_cmp
 
     def _update(self, filename, dir1, dir2):
         """ Private function for updating a file based on
@@ -536,7 +542,7 @@ class Syncer(object):
         # We need only the first 4 significant digits
         tt = (str(self._endtime - self._starttime))[:4]
 
-        self.log('\nPython syncer finished in %s seconds.' % tt)
+        self.log('\n%s finished in %s seconds.' % (__pkg_name__, tt))
         self.log('%d directories parsed, %d files copied' %
                  (self._numdirs, self._numfiles))
         if self._numdelfiles:
@@ -549,14 +555,19 @@ class Syncer(object):
             self.log('%d files were updated by timestamp.' % self._numupdates)
 
         # Failure stats
-        self.log('\n')
+        self.log('')
         if self._numcopyfld:
-            self.log('%d files could not be copied.' % self._numcopyfld)
+            self.log('there were errors in copying %d files.'
+                     % self._numcopyfld)
         if self._numdirsfld:
-            self.log('%d directories could not be created.' % self._numdirsfld)
+            self.log('there were errors in creating %d directories.'
+                     % self._numdirsfld)
         if self._numupdsfld:
-            self.log('%d files could not be updated.' % self._numupdsfld)
+            self.log('there were errors in updating %d files.'
+                     % self._numupdsfld)
         if self._numdeldfld:
-            self.log('%d directories could not be purged.' % self._numdeldfld)
+            self.log('there were errors in purging %d directories.'
+                     % self._numdeldfld)
         if self._numdelffld:
-            self.log('%d files could not be purged.' % self._numdelffld)
+            self.log('there were errors in purging %d files.'
+                     % self._numdelffld)

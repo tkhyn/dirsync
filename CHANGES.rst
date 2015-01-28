@@ -2,8 +2,24 @@ dirsync - Changes
 =================
 
 
-2.1 dev
--------
+2.2 (28-01-2015)
+----------------
+
+Fixed:
+- [cmdline] Package name is now consistently displayed in console messages
+- [cmdline] Traceback is no longer shown when an exception is raised
+- Nicer error messages
+- Created directories counter now works
+
+Changed:
+- [backwards incompatible]: --nodirection option replaced by --twoway (-2)
+- [backwards incompatible]: --modtimeonly option replaced by --ctime
+  (defaults to False)
+- A default ~/.dirsync config file is created on first run
+
+
+2.1 (08-09-2014)
+----------------
 
 - Added config files support when called from command line
 - Added custom logger when called from python

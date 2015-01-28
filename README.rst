@@ -1,8 +1,8 @@
 dirsync
 =======
 
-|copyright| 2014 Thomas Khyn
-|copyright| 2003 Anand B Pillai
+|copyright| 2014-2015 Thomas Khyn
+|copyright| 2003-2015 Anand B Pillai
 
 Advanced directory tree synchronisation tool
 
@@ -44,13 +44,13 @@ Additional Options
                         default)
 --force, -f             Force copying of files, by trying to change file
                         permissions
---nodirection, -n       Update files in source directory from target
+--twoway, -2            Update files in source directory from target
                         directory (only updates target from source by default)
 --create, -c            Create target directory if it does not exist (By
                         default, target directory should exist.)
---modtime, -m           Only compare file's modification times for an update
-                        (By default, compares source file's creation time
-                        also)
+--ctime                 Also takes into account the source file\'s creation
+                        time (Windows) or the source file\'s last metadata
+                        change (Unix)
 --ignore, -x patterns   Regex patterns to ignore
 --only, -o patterns     Regex patterns to include (exclude every other)
 --exclude, -e patterns  Regex patterns to exclude
@@ -69,8 +69,12 @@ If you want to use predefined options all the time, or if you need specific
 options when 'dirsyncing' a specific source directory, dirsync looks for
 two configuration files, by order or priority (the last takes precedence)::
 
-    %HOME%/.dirsync
+    ~/.dirsync
     source/directory/.dirsync
+
+.. note::
+   A ~/.dirsync configuration file is automatically created the first time
+   dirsync is ran from the comman line. It enables ``sync`` mode by default.
 
 .. warning::
    Any ``source/directory/.dirsync`` file is automatically excluded from the

@@ -18,7 +18,16 @@ except ImportError:
 
 from six import string_types
 
-__all__ = ['OPTIONS', 'ArgParser']
+
+from .version import __pkg_name__
+
+__all__ = ['USER_CFG_FILE', 'DEFAULT_USER_CFG', 'OPTIONS', 'ArgParser']
+
+USER_CFG_FILE = '~/.%s' % __pkg_name__
+DEFAULT_USER_CFG = """# %s default options
+[defaults]
+action = sync
+""" % __pkg_name__
 
 
 options = (
@@ -39,7 +48,7 @@ options = (
         dest='action',
         const='sync',
         default=False,
-        help='Synchronize content between sourcedir and targetdir'
+        help='Synchronize content from sourcedir to targetdir'
     ))),
     ('update', (('-u',), dict(
         action='store_const',
@@ -58,7 +67,7 @@ options = (
         default=False,
         help='Force copying of files, by trying to change file permissions'
     ))),
-    ('nodirection', (('-n',), dict(
+    ('twoway', (('-2',), dict(
         action='store_true',
         default=False,
         help='Update files in source directory from target'
@@ -67,14 +76,13 @@ options = (
     ('create', (('-c',), dict(
         action='store_true',
         default=False,
-        help='Create target directory if it does not exist ' \
-             '(By default, target directory should exist).'
+        help='Synchronize files from target to source directory as well.'
     ))),
-    ('modtime', (('-m',), dict(
+    ('ctime', ((), dict(
         action='store_true',
         default=False,
-        help='Only compare file\'s modification times for an update '\
-             '(By default, compares source file\'s creation time also).'
+        help='Also takes into account the source file\'s creation time '
+             '(Windows) or the source file\'s last metadata change (Unix)'
     ))),
     ('only', (('-o',), dict(
         action='store', nargs='+',
@@ -106,9 +114,9 @@ class ArgParser(ArgumentParser):
 
     def __init__(self, *args, **kwargs):
         kwargs['description'] = \
-            'Syncer: Command line directory diff, synchronization, ' \
+            '%s: Command line directory diff, synchronization, ' \
             'update & copy\n' \
-            'Authors: Anand Pillai (v1.0), Thomas Khyn (v2.x)'
+            'Authors: Anand Pillai (v1.0), Thomas Khyn (v2.x)' % __pkg_name__
         super(ArgParser, self).__init__(*args, **kwargs)
 
         self.add_argument('sourcedir',
@@ -141,12 +149,9 @@ class ArgParser(ArgumentParser):
          - and/or a %HOME%/.dirsync user config file
         """
 
-        cfg_files = [os.path.abspath(os.path.join(src_dir, '.dirsync'))]
-        home_dir = os.environ.get('HOME', None)
-        if home_dir:
-            # inserting in first position so that it can be overriden by
-            # cwd config file
-            cfg_files.insert(0, os.path.join(home_dir, '.dirsync'))
+        # last files override previous ones
+        cfg_files = [os.path.expanduser(USER_CFG_FILE),
+                     os.path.abspath(os.path.join(src_dir, '.dirsync'))]
 
         cfg = ConfigParser()
         cfg.read(cfg_files)

@@ -2,9 +2,9 @@
 Project versionning info
 """
 
-import subprocess
+__pkg_name__ = 'dirsync'
 
-__version_info__ = (2, 1, 0, 'final', 0)
+__version_info__ = (2, 2, 0, 'final', 0)
 
 
 def get_version(version=__version_info__):
@@ -27,8 +27,18 @@ def get_version(version=__version_info__):
 
 
 def get_hg_chgset():
+    import subprocess
+
     try:
-        return subprocess.check_output(['hg', 'id', '-i']).strip()
+        # python 3
+        DEVNULL = subprocess.DEVNULL
+    except AttributeError:
+        import os
+        DEVNULL = open(os.devnull, 'wb')
+
+    try:
+        return subprocess.check_output(['hg', 'id', '-i'],
+                                       stderr=DEVNULL).strip()
     except:
         return '?'
 
