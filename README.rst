@@ -19,4 +19,5 @@ based on `Python robocopier`_ by Anand B Pillai
 
 .. |copyright| unicode:: 0xA9
 
+.. _`Python robocopier`: http://code.activestate.com/recipes/231501-python-robocopier-advanced-directory-synchronizati/
 .. _dirsync: https://bitbucket.org/tkhyn/dirsync
