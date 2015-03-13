@@ -3,8 +3,11 @@ Command line options tests
 """
 
 import os
+import re
 
 from six import iteritems
+from mock import patch
+from StringIO import StringIO
 
 from dirsync.options import ArgParser
 from dirsync.run import sync
@@ -15,8 +18,9 @@ from . import trees
 
 class CmdLineTests(DirSyncTestCase):
 
-    def dirsync(self, *args):
-        sync(**vars(ArgParser().parse_args(args)))
+    def dirsync(self, *args, **kwargs):
+        kwargs.update(vars(ArgParser().parse_args(args)))
+        sync(**kwargs)
 
 
 class SyncTests(CmdLineTests):
@@ -39,6 +43,20 @@ class SyncTests(CmdLineTests):
     def test_no_create(self):
         with self.assertRaises(ValueError):
             self.dirsync('src', 'dst', '--sync')
+
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_output(self, stdout):
+        self.dirsync('src', 'dst', '--sync', '-c')
+        self.dirsync('src', 'dst', '--sync', '-c')
+
+        self.assertEqual(
+            re.sub('\d\.\d{2}', 'X', stdout.getvalue().strip()),
+            'dirsync finished in X seconds.\n'
+            '3 directories parsed, 4 files copied\n'
+            '3 directories were created.\n\n\n'
+            'dirsync finished in X seconds.\n'
+            '3 directories parsed, 0 files copied'
+        )
 
 
 class CfgFiles(CmdLineTests):
