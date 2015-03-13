@@ -43,9 +43,10 @@ class Syncer(object):
             # configure default logger to stdout
             log = logging.getLogger('dirsync')
             log.setLevel(logging.INFO)
-            hdl = logging.StreamHandler(sys.stdout)
-            hdl.setFormatter(logging.Formatter('%(message)s'))
-            log.addHandler(hdl)
+            if not log.handlers:
+                hdl = logging.StreamHandler(sys.stdout)
+                hdl.setFormatter(logging.Formatter('%(message)s'))
+                log.addHandler(hdl)
             self.logger = log
 
         self._dir1 = dir1
