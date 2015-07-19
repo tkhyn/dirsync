@@ -18,6 +18,13 @@ Changed:
 - A default ~/.dirsync config file is created on first run
 
 
+2.2.1 (19-07-2015)
+..................
+
+Fixed:
+- duplicate log entries when calling dirsync subsequently (#2)
+
+
 2.1 (08-09-2014)
 ----------------
 

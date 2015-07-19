@@ -4,7 +4,7 @@ Project versionning info
 
 __pkg_name__ = 'dirsync'
 
-__version_info__ = (2, 2, 0, 'final', 0)
+__version_info__ = (2, 2, 1, 'final', 0)
 
 
 def get_version(version=__version_info__):
