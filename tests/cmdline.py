@@ -5,9 +5,8 @@ Command line options tests
 import os
 import re
 
-from six import iteritems
+from six import iteritems, StringIO
 from mock import patch
-from StringIO import StringIO
 
 from dirsync.options import ArgParser
 from dirsync.run import sync
