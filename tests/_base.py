@@ -33,15 +33,16 @@ class DirSyncTestCase(unittest.TestCase):
         for x in os.listdir('.'):
             self.rm(x)
 
-        # cleanup dirsync logger
-        log = logging.getLogger('dirsync')
-        for hdl in log.handlers:
-            log.removeHandler(hdl)
-
-        # cleanup test log stream
-        log_stream = getattr(self, '_log_stream', None)
-        if log_stream:
-            log_stream.close()
+        # cleanup dirsync and test loggers
+        loggers = [logging.getLogger('dirsync')]
+        try:
+            loggers.append(self._logger)
+        except AttributeError:
+            pass
+        for logger in loggers:
+            for hdl in logger.handlers:
+                hdl.close()
+                logger.removeHandler(hdl)
 
     def mk_tree(self, name, structure=()):
         cwd = os.getcwd()
