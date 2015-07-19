@@ -2,7 +2,7 @@ import os
 
 from dirsync import sync
 
-from .base import DirSyncTestCase
+from ._base import DirSyncTestCase
 from . import trees
 
 

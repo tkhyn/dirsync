@@ -1,6 +1,6 @@
 import os
 
-from .base import DirSyncTestCase
+from ._base import DirSyncTestCase
 from . import trees
 
 from dirsync import sync

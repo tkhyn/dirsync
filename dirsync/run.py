@@ -34,6 +34,6 @@ def from_cmdline():
 
     try:
         sync(**vars(ArgParser().parse_args()))
-    except Exception, e:
+    except Exception as e:
         sys.stdout.write(str(e) + '\n')
         sys.exit(2)

@@ -12,7 +12,7 @@ from StringIO import StringIO
 from dirsync.options import ArgParser
 from dirsync.run import sync
 
-from .base import DirSyncTestCase
+from ._base import DirSyncTestCase
 from . import trees
 
 
