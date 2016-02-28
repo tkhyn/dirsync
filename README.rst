@@ -1,7 +1,7 @@
 dirsync
 =======
 
-|copyright| 2014-2015 Thomas Khyn
+|copyright| 2014-2016 Thomas Khyn
 |copyright| 2003-2015 Anand B Pillai
 
 Advanced directory tree synchronisation tool
