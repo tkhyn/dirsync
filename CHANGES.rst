@@ -17,12 +17,17 @@ Changed:
   (defaults to False)
 - A default ~/.dirsync config file is created on first run
 
-
 2.2.1 (19-07-2015)
 ..................
 
 Fixed:
 - duplicate log entries when calling dirsync subsequently (#2)
+
+2.2.2 (29-02-2016)
+..................
+
+Fixed:
+- six was not present in install_requires (#3)
 
 
 2.1 (08-09-2014)
