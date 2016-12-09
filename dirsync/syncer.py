@@ -531,7 +531,6 @@ class Syncer(object):
         self._updatefiles = False
         self._purge = False
         self._creatdirs = False
-        self._updatefiles = False
 
         self.log('Difference of directory %s from %s\n' %
                  (self._dir2, self._dir1))
