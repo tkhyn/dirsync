@@ -74,7 +74,7 @@ two configuration files, by order or priority (the last takes precedence)::
 
 .. note::
    A ~/.dirsync configuration file is automatically created the first time
-   dirsync is ran from the comman line. It enables ``sync`` mode by default.
+   dirsync is ran from the command line. It enables ``sync`` mode by default.
 
 .. warning::
    Any ``source/directory/.dirsync`` file is automatically excluded from the
