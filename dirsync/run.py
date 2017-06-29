@@ -28,8 +28,8 @@ def from_cmdline():
     user_cfg_file = os.path.expanduser(USER_CFG_FILE)
     if not os.path.isfile(user_cfg_file):
         print('Creating user config file "%s" ...' % user_cfg_file, end=''),
-        f = open(user_cfg_file, 'w').write(DEFAULT_USER_CFG)
-        f.close()
+        with open(user_cfg_file, 'w') as f:
+            f.write(DEFAULT_USER_CFG)
         print(' Done')
 
     try:
