@@ -6,7 +6,11 @@ import os
 import re
 
 from six import iteritems, StringIO
-from mock import patch
+try:
+    # Python 3
+    from unittest.mock import patch
+except ImportError:
+    from mock import patch
 
 from dirsync.options import ArgParser
 from dirsync.run import sync
@@ -52,7 +56,7 @@ class SyncTests(CmdLineTests):
             re.sub('\d\.\d{2}', 'X', stdout.getvalue().strip()),
             'dirsync finished in X seconds.\n'
             '3 directories parsed, 4 files copied\n'
-            '3 directories were created.\n\n\n'
+            '3 directories were created.\n\n'
             'dirsync finished in X seconds.\n'
             '3 directories parsed, 0 files copied'
         )

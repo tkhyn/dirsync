@@ -502,7 +502,7 @@ class Syncer(object):
         self._copydirection = 0
 
         if self._verbose:
-            self.log('Synchronizing directory %s with %s\n' %
+            self.log('Synchronizing directory %s with %s' %
                      (self._dir2, self._dir1))
         self._dirdiffcopyandupdate(self._dir1, self._dir2)
 
@@ -518,7 +518,7 @@ class Syncer(object):
         self._creatdirs = False
 
         if self._verbose:
-            self.log('Updating directory %s with %s\n' %
+            self.log('Updating directory %s with %s' %
                      (self._dir2, self._dir1))
         self._dirdiffandupdate(self._dir1, self._dir2)
 
@@ -531,9 +531,8 @@ class Syncer(object):
         self._updatefiles = False
         self._purge = False
         self._creatdirs = False
-        self._updatefiles = False
 
-        self.log('Difference of directory %s from %s\n' %
+        self.log('Difference of directory %s from %s' %
                  (self._dir2, self._dir1))
         self._diff(self._dir1, self._dir2)
 
@@ -543,7 +542,7 @@ class Syncer(object):
         # We need only the first 4 significant digits
         tt = (str(self._endtime - self._starttime))[:4]
 
-        self.log('\n%s finished in %s seconds.' % (__pkg_name__, tt))
+        self.log('%s finished in %s seconds.' % (__pkg_name__, tt))
         self.log('%d directories parsed, %d files copied' %
                  (self._numdirs, self._numfiles))
         if self._numdelfiles:

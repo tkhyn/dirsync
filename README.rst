@@ -1,13 +1,16 @@
 dirsync
 =======
 
-|copyright| 2014-2016 Thomas Khyn
+|copyright| 2014-2017 Thomas Khyn
 |copyright| 2003-2015 Anand B Pillai
 
 Advanced directory tree synchronisation tool
 
 based on `Python robocopier`_ by Anand B Pillai
 
+If you like dirsync and are looking for a way to thank me and/or encourage
+future development, here is my BTC or BCH donation address:
+``1EwENyR8RV6tMc1hsLTkPURtn5wJgaBfG9``.
 
 Usage
 -----
@@ -74,7 +77,7 @@ two configuration files, by order or priority (the last takes precedence)::
 
 .. note::
    A ~/.dirsync configuration file is automatically created the first time
-   dirsync is ran from the comman line. It enables ``sync`` mode by default.
+   dirsync is ran from the command line. It enables ``sync`` mode by default.
 
 .. warning::
    Any ``source/directory/.dirsync`` file is automatically excluded from the

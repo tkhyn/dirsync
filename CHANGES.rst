@@ -29,6 +29,13 @@ Fixed:
 Fixed:
 - six was not present in install_requires (#3)
 
+2.2.3 (06-02-2017)
+..................
+
+Fixed:
+- options file initialisation
+- newline chars at end of logs (#15)
+
 
 2.1 (08-09-2014)
 ----------------
