@@ -19,9 +19,8 @@ class DiffTests(DirSyncTestCase):
 
         sync('src', 'dst', 'diff', logger=self.logger)
 
-        self.assertListEqual(self.output.splitlines()[:11],
+        self.assertListEqual(self.output.splitlines()[:10],
             ['Difference of directory dst from src',
-             '',
              'Only in dst',
              '<< dir',
              '<< dir%sfile4.txt' % os.sep,

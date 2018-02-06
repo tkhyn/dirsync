@@ -52,7 +52,7 @@ class SyncTests(CmdLineTests):
             re.sub('\d\.\d{2}', 'X', stdout.getvalue().strip()),
             'dirsync finished in X seconds.\n'
             '3 directories parsed, 4 files copied\n'
-            '3 directories were created.\n\n\n'
+            '3 directories were created.\n\n'
             'dirsync finished in X seconds.\n'
             '3 directories parsed, 0 files copied'
         )
