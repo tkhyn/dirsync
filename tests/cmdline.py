@@ -6,7 +6,11 @@ import os
 import re
 
 from six import iteritems, StringIO
-from mock import patch
+try:
+    # Python 3
+    from unittest.mock import patch
+except ImportError:
+    from mock import patch
 
 from dirsync.options import ArgParser
 from dirsync.run import sync
