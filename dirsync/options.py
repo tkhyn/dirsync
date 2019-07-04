@@ -84,6 +84,11 @@ options = (
         help='Also takes into account the source file\'s creation time '
              '(Windows) or the source file\'s last metadata change (Unix)'
     ))),
+    ('content', ((), dict(
+        action='store_true',
+        default=False,
+        help='Takes into account ONLY content of files. Synchronize ONLY different files.'
+    ))),
     ('only', (('-o',), dict(
         action='store', nargs='+',
         default=[],

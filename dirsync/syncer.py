@@ -19,6 +19,7 @@ import time
 import shutil
 import re
 import logging
+import filecmp
 
 from .options import OPTIONS
 from .version import __pkg_name__
@@ -66,7 +67,8 @@ class Syncer(object):
         self._numdelfiles = 0
         self._numdeldirs = 0
         self._numnewdirs = 0
-        self._numupdates = 0
+        self._numcontupdates = 0
+        self._numtimeupdates = 0
         self._starttime = 0.0
         self._endtime = 0.0
 
@@ -89,6 +91,7 @@ class Syncer(object):
         self._forcecopy = get_option('force')
         self._maketarget = get_option('create')
         self._use_ctime = get_option('ctime')
+        self._use_content = get_option('content')
 
         self._ignore = get_option('ignore')
         self._only = get_option('only')
@@ -386,7 +389,8 @@ class Syncer(object):
                 # source file's modification time, or creation time. Sometimes
                 # it so happens that a file's creation time is newer than it's
                 # modification time! (Seen this on windows)
-                if self._cmptimestamps(st1, st2):
+                need_upd = (not filecmp.cmp(file1, file2, False)) if self._use_content else self._cmptimestamps(st1, st2)
+                if need_upd:
                     if self._verbose:
                         # source to target
                         self.log('Updating file %s' % file2)
@@ -400,7 +404,10 @@ class Syncer(object):
                             else:
                                 shutil.copy2(file1, file2)
                             self._changed.append(file2)
-                            self._numupdates += 1
+                            if self._use_content:
+                               self._numcontupdates += 1
+                            else:
+                               self._numtimeupdates += 1
                             return 0
                         except (IOError, OSError) as e:
                             self.log(str(e))
@@ -417,7 +424,8 @@ class Syncer(object):
                 # source file's modification time, or creation time. Sometimes
                 # it so happens that a file's creation time is newer than it's
                 # modification time! (Seen this on windows)
-                if self._cmptimestamps(st2, st1):
+                need_upd = (not filecmp.cmp(file1, file2, False)) if self._use_content else self._cmptimestamps(st2, st1)
+                if need_upd:
                     if self._verbose:
                         # target to source
                         self.log('Updating file %s' % file1)
@@ -431,7 +439,10 @@ class Syncer(object):
                             else:
                                 shutil.copy2(file2, file1)
                             self._changed.append(file1)
-                            self._numupdates += 1
+                            if self._use_content:
+                               self._numcontupdates += 1
+                            else:
+                               self._numtimeupdates += 1
                             return 0
                         except (IOError, OSError) as e:
                             self.log(str(e))
@@ -551,8 +562,10 @@ class Syncer(object):
             self.log('%d directories were purged.' % self._numdeldirs)
         if self._numnewdirs:
             self.log('%d directories were created.' % self._numnewdirs)
-        if self._numupdates:
-            self.log('%d files were updated by timestamp.' % self._numupdates)
+        if self._numcontupdates:
+            self.log('%d files were updated by content.' % self._numcontupdates)
+        if self._numtimeupdates:
+            self.log('%d files were updated by timestamp.' % self._numtimeupdates)
 
         # Failure stats
         self.log('')
