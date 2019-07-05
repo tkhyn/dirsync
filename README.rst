@@ -54,6 +54,10 @@ Additional Options
 --ctime                 Also takes into account the source file\'s creation
                         time (Windows) or the source file\'s last metadata
                         change (Unix)
+--content               Takes into account ONLY content of files. 
+                        Synchronize ONLY different files.
+                        At two-way synchronization source files content 
+                        have priority if destination and source are existed
 --ignore, -x patterns   Regex patterns to ignore
 --only, -o patterns     Regex patterns to include (exclude every other)
 --exclude, -e patterns  Regex patterns to exclude

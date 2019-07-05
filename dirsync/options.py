@@ -87,7 +87,8 @@ options = (
     ('content', ((), dict(
         action='store_true',
         default=False,
-        help='Takes into account ONLY content of files. Synchronize ONLY different files.'
+        help='Takes into account ONLY content of files. Synchronize ONLY different files. '
+             'At two-way synchronization source files content have priority if destination and source are existed'
     ))),
     ('only', (('-o',), dict(
         action='store', nargs='+',
