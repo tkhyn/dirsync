@@ -4,7 +4,8 @@ dirsync
 Report the difference in content
 of two directories, synchronise or
 update a directory from another, taking
-into account time-stamps of files etc.
+into account time-stamps of files and/or 
+its content etc.
 
 (c) Thomas Khyn 2014
 
@@ -366,7 +367,7 @@ class Syncer(object):
 
     def _update(self, filename, dir1, dir2):
         """ Private function for updating a file based on
-        last time stamp of modification """
+        last time stamp of modification or difference of content"""
 
         # NOTE: dir1 is source & dir2 is target
         if self._updatefiles:
@@ -381,10 +382,12 @@ class Syncer(object):
                 return -1
 
             # Update will update in both directions depending
-            # on the timestamp of the file & copy-direction.
+            # on ( the timestamp of the file or its content ) & copy-direction.
 
             if self._copydirection == 0 or self._copydirection == 2:
 
+                # If flag 'content' is used then look only at difference of file 
+                # contents instead of time stamps.
                 # Update file if file's modification time is older than
                 # source file's modification time, or creation time. Sometimes
                 # it so happens that a file's creation time is newer than it's
@@ -420,11 +423,12 @@ class Syncer(object):
 
             if self._copydirection == 1 or self._copydirection == 2:
 
+                # No need to do reverse synchronization in case of content comparing.
                 # Update file if file's modification time is older than
                 # source file's modification time, or creation time. Sometimes
                 # it so happens that a file's creation time is newer than it's
                 # modification time! (Seen this on windows)
-                need_upd = (not filecmp.cmp(file1, file2, False)) if self._use_content else self._cmptimestamps(st2, st1)
+                need_upd = False if self._use_content else self._cmptimestamps(st2, st1)
                 if need_upd:
                     if self._verbose:
                         # target to source
@@ -439,10 +443,7 @@ class Syncer(object):
                             else:
                                 shutil.copy2(file2, file1)
                             self._changed.append(file1)
-                            if self._use_content:
-                               self._numcontupdates += 1
-                            else:
-                               self._numtimeupdates += 1
+                            self._numtimeupdates += 1
                             return 0
                         except (IOError, OSError) as e:
                             self.log(str(e))
