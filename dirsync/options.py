@@ -142,7 +142,7 @@ class ArgParser(ArgumentParser):
             self.load_cfg(args[0] if args else sys.argv[1])
         parsed = super(ArgParser, self).parse_args(args, namespace)
 
-        if parsed.action == False:
+        if parsed.action is False:
             raise ValueError('Argument error: you must select an action using '
                              'one of the "sync", "update" or "diff" options\n')
 
