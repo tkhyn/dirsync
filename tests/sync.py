@@ -60,3 +60,41 @@ class SyncTestsWithDest(DirSyncTestCase):
 
         self.assertExists('src/dir')
         self.assertExists('dst/dir')
+
+class SyncTestsWithContent(DirSyncTestCase):
+
+    init_trees = (('src', trees.simple),)
+
+    def setUp(self):
+        super(SyncTestsWithContent, self).setUp()
+        sync('src', 'dst', 'sync', create=True)
+
+    def test_src_priority(self):
+        file1 = open('src/file1.txt', 'r+')
+        file1.write('Source content')
+        file1.close()
+
+        file1 = open('dst/file1.txt', 'r+')
+        file1.write('Destination content differs from source. And older timestamp.')
+        file1.close()
+
+        sync('src', 'dst', 'sync', content=True)
+
+        file1 = open('dst/file1.txt', 'r')
+        self.assertEqual(file1.read(), 'Source content')
+        file1.close()
+
+    def test_src_priority_twoway(self):
+        file1 = open('src/file1.txt', 'r+')
+        file1.write('Source content')
+        file1.close()
+
+        file1 = open('dst/file1.txt', 'r+')
+        file1.write('Destination file\'s content differs from source. And older timestamp of destination file.')
+        file1.close()
+
+        sync('src', 'dst', 'sync', content=True, twoway=True)
+
+        file1 = open('dst/file1.txt', 'r')
+        self.assertEqual(file1.read(), 'Source content')
+        file1.close()

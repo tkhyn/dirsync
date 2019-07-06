@@ -1,6 +1,8 @@
 dirsync - Changes
 =================
 
+- Added comparing content of files
+
 
 2.2 (28-01-2015)
 ----------------
@@ -35,6 +37,12 @@ Fixed:
 Fixed:
 - options file initialisation
 - newline chars at end of logs (#15)
+
+2.2.4 (06-07-2019)
+..................
+
+Added:
+- ``--content`` option to compare files by content
 
 
 2.1 (08-09-2014)

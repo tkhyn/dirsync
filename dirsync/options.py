@@ -84,6 +84,12 @@ options = (
         help='Also takes into account the source file\'s creation time '
              '(Windows) or the source file\'s last metadata change (Unix)'
     ))),
+    ('content', ((), dict(
+        action='store_true',
+        default=False,
+        help='Takes into account ONLY content of files. Synchronize ONLY different files. '
+             'At two-way synchronization source files content have priority if destination and source are existed'
+    ))),
     ('only', (('-o',), dict(
         action='store', nargs='+',
         default=[],
@@ -136,7 +142,7 @@ class ArgParser(ArgumentParser):
             self.load_cfg(args[0] if args else sys.argv[1])
         parsed = super(ArgParser, self).parse_args(args, namespace)
 
-        if parsed.action == False:
+        if parsed.action is False:
             raise ValueError('Argument error: you must select an action using '
                              'one of the "sync", "update" or "diff" options\n')
 

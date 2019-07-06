@@ -4,7 +4,8 @@ dirsync
 Report the difference in content
 of two directories, synchronise or
 update a directory from another, taking
-into account time-stamps of files etc.
+into account time-stamps of files and/or 
+its content etc.
 
 (c) Thomas Khyn 2014
 
@@ -19,6 +20,7 @@ import time
 import shutil
 import re
 import logging
+import filecmp
 
 from .options import OPTIONS
 from .version import __pkg_name__
@@ -66,7 +68,8 @@ class Syncer(object):
         self._numdelfiles = 0
         self._numdeldirs = 0
         self._numnewdirs = 0
-        self._numupdates = 0
+        self._numcontupdates = 0
+        self._numtimeupdates = 0
         self._starttime = 0.0
         self._endtime = 0.0
 
@@ -89,6 +92,7 @@ class Syncer(object):
         self._forcecopy = get_option('force')
         self._maketarget = get_option('create')
         self._use_ctime = get_option('ctime')
+        self._use_content = get_option('content')
 
         self._ignore = get_option('ignore')
         self._only = get_option('only')
@@ -363,7 +367,7 @@ class Syncer(object):
 
     def _update(self, filename, dir1, dir2):
         """ Private function for updating a file based on
-        last time stamp of modification """
+        last time stamp of modification or difference of content"""
 
         # NOTE: dir1 is source & dir2 is target
         if self._updatefiles:
@@ -378,15 +382,18 @@ class Syncer(object):
                 return -1
 
             # Update will update in both directions depending
-            # on the timestamp of the file & copy-direction.
+            # on ( the timestamp of the file or its content ) & copy-direction.
 
             if self._copydirection == 0 or self._copydirection == 2:
 
+                # If flag 'content' is used then look only at difference of file 
+                # contents instead of time stamps.
                 # Update file if file's modification time is older than
                 # source file's modification time, or creation time. Sometimes
                 # it so happens that a file's creation time is newer than it's
                 # modification time! (Seen this on windows)
-                if self._cmptimestamps(st1, st2):
+                need_upd = (not filecmp.cmp(file1, file2, False)) if self._use_content else self._cmptimestamps(st1, st2)
+                if need_upd:
                     if self._verbose:
                         # source to target
                         self.log('Updating file %s' % file2)
@@ -400,7 +407,10 @@ class Syncer(object):
                             else:
                                 shutil.copy2(file1, file2)
                             self._changed.append(file2)
-                            self._numupdates += 1
+                            if self._use_content:
+                               self._numcontupdates += 1
+                            else:
+                               self._numtimeupdates += 1
                             return 0
                         except (IOError, OSError) as e:
                             self.log(str(e))
@@ -413,11 +423,13 @@ class Syncer(object):
 
             if self._copydirection == 1 or self._copydirection == 2:
 
+                # No need to do reverse synchronization in case of content comparing.
                 # Update file if file's modification time is older than
                 # source file's modification time, or creation time. Sometimes
                 # it so happens that a file's creation time is newer than it's
                 # modification time! (Seen this on windows)
-                if self._cmptimestamps(st2, st1):
+                need_upd = False if self._use_content else self._cmptimestamps(st2, st1)
+                if need_upd:
                     if self._verbose:
                         # target to source
                         self.log('Updating file %s' % file1)
@@ -431,7 +443,7 @@ class Syncer(object):
                             else:
                                 shutil.copy2(file2, file1)
                             self._changed.append(file1)
-                            self._numupdates += 1
+                            self._numtimeupdates += 1
                             return 0
                         except (IOError, OSError) as e:
                             self.log(str(e))
@@ -551,8 +563,10 @@ class Syncer(object):
             self.log('%d directories were purged.' % self._numdeldirs)
         if self._numnewdirs:
             self.log('%d directories were created.' % self._numnewdirs)
-        if self._numupdates:
-            self.log('%d files were updated by timestamp.' % self._numupdates)
+        if self._numcontupdates:
+            self.log('%d files were updated by content.' % self._numcontupdates)
+        if self._numtimeupdates:
+            self.log('%d files were updated by timestamp.' % self._numtimeupdates)
 
         # Failure stats
         self.log('')
