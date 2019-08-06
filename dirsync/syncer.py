@@ -159,8 +159,10 @@ class Syncer(object):
                 if add_path:
                     left.add(path)
                     anc_dirs = re_path[:-1].split('/')
-                    for i in range(1, len(anc_dirs)):
-                        left.add('/'.join(anc_dirs[:i]))
+                    anc_dirs_path = ''
+                    for ad in anc_dirs:
+                        anc_dirs_path = os.path.join(anc_dirs_path, ad)
+                        left.add(anc_dirs_path)
 
         for cwd, dirs, files in os.walk(dir2):
             for f in dirs + files:

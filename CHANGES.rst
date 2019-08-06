@@ -1,8 +1,6 @@
 dirsync - Changes
 =================
 
-- Added comparing content of files
-
 
 2.2 (28-01-2015)
 ----------------
