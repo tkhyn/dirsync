@@ -1,6 +1,12 @@
 dirsync - Changes
 =================
 
+dev
+---
+
+Fixed:
+- Comparisons on windows
+
 
 2.2 (28-01-2015)
 ----------------
