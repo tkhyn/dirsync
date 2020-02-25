@@ -4,7 +4,7 @@ dirsync
 Report the difference in content
 of two directories, synchronise or
 update a directory from another, taking
-into account time-stamps of files and/or 
+into account time-stamps of files and/or
 its content etc.
 
 (c) Thomas Khyn 2014
@@ -221,7 +221,11 @@ class Syncer(object):
                 try:
                     if os.path.isfile(fullf2):
                         try:
-                            os.remove(fullf2)
+                            try:
+                                os.remove(fullf2)
+                            except PermissionError as e:
+                                os.chmod(fullf2, stat.S_IWRITE)
+                                os.remove(fullf2)
                             self._deleted.append(fullf2)
                             self._numdelfiles += 1
                         except OSError as e:
@@ -386,7 +390,7 @@ class Syncer(object):
 
             if self._copydirection == 0 or self._copydirection == 2:
 
-                # If flag 'content' is used then look only at difference of file 
+                # If flag 'content' is used then look only at difference of file
                 # contents instead of time stamps.
                 # Update file if file's modification time is older than
                 # source file's modification time, or creation time. Sometimes
@@ -405,7 +409,11 @@ class Syncer(object):
                             if os.path.islink(file1):
                                 os.symlink(os.readlink(file1), file2)
                             else:
-                                shutil.copy2(file1, file2)
+                                try:
+                                    shutil.copy2(file1, file2)
+                                except PermissionError as e:
+                                    os.chmod(file2, stat.S_IWRITE)
+                                    shutil.copy2(file1, file2)
                             self._changed.append(file2)
                             if self._use_content:
                                self._numcontupdates += 1
