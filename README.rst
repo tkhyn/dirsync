@@ -24,6 +24,10 @@ From python::
    from dirsync import sync
    sync(sourcedir, targetdir, action, **options)
 
+For instance, if you synchronize dirA with dirB located in the current working directory, do as follows::
+
+   sync('./dirA', './dirB', action="sync", purge=True)
+
 
 Main Options
 ------------
