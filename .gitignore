@@ -1,0 +1,26 @@
+# buildout files and folders
+bin
+.installed.cfg
+
+# tox directory
+.tox
+
+# distutils generated files and folders
+build
+dist
+MANIFEST
+
+# egg folder (when package is used as a buildout dev egg)
+dirsync.egg-info
+
+# coverage
+tests/.coverage
+
+# python binary files
+*.pyc
+
+# locale binary files
+*.mo
+
+# log files
+*.log
