@@ -1,8 +1,6 @@
 dirsync - Changes
 =================
 
-- Added comparing content of files
-
 
 2.2 (28-01-2015)
 ----------------
@@ -43,6 +41,13 @@ Fixed:
 
 Added:
 - ``--content`` option to compare files by content
+
+2.2.5 (01-08-2020)
+..................
+
+Fixed:
+- Comparisons on windows
+- Read-only files handling (#25)
 
 
 2.1 (08-09-2014)
