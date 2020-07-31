@@ -8,8 +8,8 @@ Advanced directory tree synchronisation tool
 
 based on `Python robocopier`_ by Anand B Pillai
 
-If you like dirsync and are looking for a way to thank me and/or encourage
-future development, here is my BTC or BCH donation address:
+If you like dirsync and find it useful, you may want to thank me and
+encourage future development by sending a few mBTC / mBCH / mBSV at this address:
 ``1EwENyR8RV6tMc1hsLTkPURtn5wJgaBfG9``.
 
 Usage
