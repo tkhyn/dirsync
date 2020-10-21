@@ -1,5 +1,7 @@
 import os
 
+from time import sleep
+
 from dirsync import sync
 
 from ._base import DirSyncTestCase
@@ -23,6 +25,8 @@ class SyncTestsFromSrc(DirSyncTestCase):
     def test_sync_modif(self):
         sync('src', 'dst', 'sync',
              create=True)
+
+        sleep(0.001)
 
         file1 = open('src/file1.txt', 'r+')
         file1.write('modifying file')
