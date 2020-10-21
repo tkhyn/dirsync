@@ -36,6 +36,16 @@ class SyncTestsFromSrc(DirSyncTestCase):
         self.assertEqual(file1.read(), 'modifying file')
         file1.close()
 
+    def test_sync_dir_link(self):
+        os.mkdir('src/dir0')
+        os.symlink('src/dir0', 'src/dir0a')
+        os.symlink('src/dir0a', 'src/dir0b')
+        sync('src', 'dst', 'sync',
+             create=True)
+        self.assertIsDir('dst/dir0')
+        self.assertTrue(os.path.islink('dst/dir0a'))
+        self.assertTrue(os.path.islink('dst/dir0b'))
+
 
 class SyncTestsWithDest(DirSyncTestCase):
 

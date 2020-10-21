@@ -249,11 +249,14 @@ class Syncer(object):
         # Files & directories only in source directory
         for f1 in self._dcmp.left_only:
             try:
-                st = os.stat(os.path.join(self._dir1, f1))
+                st = os.lstat(os.path.join(self._dir1, f1))
             except os.error:
                 continue
 
-            if stat.S_ISREG(st.st_mode):
+            if (
+                stat.S_ISREG(st.st_mode)
+                or stat.S_ISLNK(st.st_mode)
+            ):
                 if copyfunc:
                     copyfunc(f1, self._dir1, self._dir2)
                     self._added.append(os.path.join(self._dir2, f1))
