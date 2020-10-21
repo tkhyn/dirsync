@@ -24,6 +24,9 @@ class SyncTestsFromSrc(DirSyncTestCase):
         sync('src', 'dst', 'sync',
              create=True)
 
+        from time import sleep
+        sleep(0.001)
+
         file1 = open('src/file1.txt', 'r+')
         file1.write('modifying file')
         file1.close()
