@@ -260,9 +260,13 @@ class Syncer(object):
             elif stat.S_ISDIR(st.st_mode):
                 to_make = os.path.join(self._dir2, f1)
                 if not os.path.exists(to_make):
-                    os.makedirs(to_make)
-                    self._numnewdirs += 1
-                    self._added.append(to_make)
+                    try:
+                        os.makedirs(to_make)
+                        self._numnewdirs += 1
+                        self._added.append(to_make)
+                    except FileNotFoundError as e:
+                        self.log(str(e))
+                        continue
 
         # common files/directories
         for f1 in self._dcmp.common:
