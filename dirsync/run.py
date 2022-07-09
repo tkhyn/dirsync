@@ -8,6 +8,7 @@ import sys
 import os
 
 from .syncer import Syncer
+from .options import ArgParser, USER_CFG_FILE, DEFAULT_USER_CFG
 
 
 def sync(sourcedir, targetdir, action, **options):
@@ -22,7 +23,6 @@ def sync(sourcedir, targetdir, action, **options):
 
 
 def from_cmdline():
-    from .options import ArgParser, USER_CFG_FILE, DEFAULT_USER_CFG
 
     # create config file if it does not exist
     user_cfg_file = os.path.expanduser(USER_CFG_FILE)
