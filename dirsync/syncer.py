@@ -158,9 +158,9 @@ class Syncer(object):
 
                 if add_path:
                     left.add(path)
-                    anc_dirs = re_path[:-1].split('/')
+                    anc_dirs = re_path.split('/')
                     anc_dirs_path = ''
-                    for ad in anc_dirs[1:]:
+                    for ad in anc_dirs:
                         anc_dirs_path = os.path.join(anc_dirs_path, ad)
                         left.add(anc_dirs_path)
 
