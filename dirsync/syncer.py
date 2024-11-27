@@ -101,7 +101,7 @@ class Syncer(object):
 
         # excludes .dirsync file by default, must explicitly be in include
         # not to be excluded
-        self._exclude.append('^\.dirsync$')
+        # self._exclude.append('^\.dirsync$')  # esn
 
         if not os.path.isdir(self._dir1):
             raise ValueError("Error: Source directory does not exist.")
@@ -221,13 +221,19 @@ class Syncer(object):
                 if self._verbose:
                     self.log('Deleting %s' % fullf2)
                 try:
-                    if os.path.isfile(fullf2):
+                    if os.path.isfile(fullf2) or os.path.isdir(fullf2):  # esn, added <or os.path.isdir(fullf2)> to check for folders too
                         try:
                             try:
-                                os.remove(fullf2)
+                                if os.path.isfile(fullf2):
+                                    os.remove(fullf2)
+                                elif os.path.isdir(fullf2):
+                                    shutil.rmtree(fullf2)
                             except PermissionError as e:
                                 os.chmod(fullf2, stat.S_IWRITE)
-                                os.remove(fullf2)
+                                if os.path.isfile(fullf2):
+                                    os.remove(fullf2)
+                                elif os.path.isdir(fullf2):
+                                    shutil.rmtree(fullf2)
                             self._deleted.append(fullf2)
                             self._numdelfiles += 1
                         except OSError as e:
