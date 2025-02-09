@@ -29,17 +29,12 @@ versions of libraries together in completely isolated virtual environments,
 ensuring robustness and repeatability. Its most common usage is to generate
 scripts or builds.
 
-You don't even need to install it globally nor in a virtual environment as it
-has its own local installation script. To locally install buildout, go to the
-main directory (where the ``buildout.cfg`` and ``bootstrap.py`` lie),
-and type::
+You only need to have buildout installed in your current virtual environment.
+I generally install it in a virtual environment called ``buildout`` where I
+only have ``zc.buildout`` which I use for all my projects::
 
-   $ python bootstrap.py
-
-This will create a ``buildout`` script in a ``bin`` folder. Now you just have
-to run::
-
-   $ bin/buildout
+   $ pip install zc.buildout
+   $ buildout
 
 It may take a few minutes to download and install the dependencies in the
 *local* folder, and generate the scripts as defined in the ``buildout.cfg``
