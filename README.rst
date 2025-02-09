@@ -54,15 +54,24 @@ Additional Options
 --ctime                 Also takes into account the source file\'s creation
                         time (Windows) or the source file\'s last metadata
                         change (Unix)
---content               Takes into account ONLY content of files. 
+--content               Takes into account ONLY content of files.
                         Synchronize ONLY different files.
-                        At two-way synchronization source files content 
+                        At two-way synchronization source files content
                         have priority if destination and source are existed
 --ignore, -x patterns   Regex patterns to ignore
 --only, -o patterns     Regex patterns to include (exclude every other)
 --exclude, -e patterns  Regex patterns to exclude
 --include, -i patterns  Regex patterns to include (with precedence over
                         excludes)
+
+.. note::
+
+   The regex options are matches, which means they need to match the whole paths from the beginning.
+
+   From the command line, the ``ignore``, ``only``, ``exclude`` and ``include`` options can be
+   followed by one or several regex pattern(s).
+
+   When using the python API, these options are to be specified as lists of regex strings.
 
 
 Configuration file
