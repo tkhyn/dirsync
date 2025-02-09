@@ -5,12 +5,8 @@ Command line options tests
 import os
 import re
 
-from six import iteritems, StringIO
-try:
-    # Python 3
-    from unittest.mock import patch
-except ImportError:
-    from mock import patch
+from io import StringIO
+from unittest.mock import patch
 
 from dirsync.options import ArgParser
 from dirsync.run import sync

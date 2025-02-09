@@ -50,7 +50,6 @@ setup(
         'Topic :: System :: Archiving :: Mirroring'
     ],
     packages=find_packages(),
-    install_requires=('six',),
     entry_points={
         'console_scripts': [
             'dirsync = dirsync.run:from_cmdline'

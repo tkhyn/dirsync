@@ -1,13 +1,8 @@
 import os
 import shutil
 import logging
-
-from six import string_types, StringIO
-
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+from io import StringIO
+import unittest
 
 __test__ = False
 __unittest__ = True
@@ -51,7 +46,7 @@ class DirSyncTestCase(unittest.TestCase):
             os.chdir(name)
 
             for x in structure:
-                if isinstance(x, string_types):
+                if isinstance(x, str):
                     open(x, 'w').close()  # create empty file
                 else:
                     self.mk_tree(*x)
