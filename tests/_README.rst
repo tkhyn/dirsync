@@ -11,11 +11,9 @@ especially if you're not familiar with zc.buildout and/or tox.
 The tests
 ---------
 
-dirsync uses nose_ for testing. All the tests are in the
-``tests`` directory, and the nose test runner uses the ``all-modules`` option
-which is defined in ``tests/setup.cfg``. This means that any object which is
-not intended to contain tests (e.g. a base classes module) shall contain the
-statement ``__test__ = False``.
+dirsync uses pytest_ for testing. All the tests are in the ``tests`` directory.
+The files not starting with ``test_`` are not intended to contain tests but only
+helper functions, classes or data.
 
 The ``setup.cfg`` file also contains coverage pre-configuration information,
 but coverage is disabled by default.
