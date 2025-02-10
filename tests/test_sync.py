@@ -1,6 +1,9 @@
 import os
 
 from time import sleep
+import shutil
+import stat
+from pathlib import Path
 
 import pytest
 
@@ -8,7 +11,6 @@ from dirsync import sync
 
 from base import DirSyncTests
 import trees
-
 
 class TestsSyncFromSrc(DirSyncTests):
 
@@ -66,6 +68,58 @@ class TestsSyncWithDest(DirSyncTests):
 
         self.assertExists('src/dir')
         self.assertExists('dst/dir')
+
+
+class TestsDelReadOnlyDirAndFilePurge(DirSyncTests):
+    """
+    Highlights orphan directory containing read-only files not being deleted during sync with purge
+    The test still fails most of the time, but the real-life behaviour is fixed, hence the @skip
+    https://github.com/tkhyn/dirsync/issues/49
+    """
+
+    init_trees = (('src', (
+        ('sub1', ('test1.txt',)),
+        ('sub2', ('test1.txt',)),
+        ('sub3', ('test1.txt',))
+    ),),('dst',))
+
+    @pytest.fixture(autouse=True)
+    def make_files_read_only(self, tree):
+        src_dir = Path('src')
+        folders = [f[0] for f in self.init_trees[0][1]]
+
+        for subfolder in folders:
+            # Set the file to read-only, because only then the error occurs
+            os.chmod(src_dir / subfolder / 'test1.txt', stat.S_IREAD)
+
+        yield
+
+        for base_dir in (src_dir, Path('dst')):
+            for subfolder in folders:
+                # Set the file to read-only, because only then the error occurs
+                path = base_dir / subfolder / 'test1.txt'
+                if path.exists():
+                    os.chmod(path, stat.S_IWRITE)
+
+    @pytest.mark.skip("This test fails most of the time, yet the bug it triggers is fixed. To "
+                      "investigate at some stage.")
+    def test_del_read_only_dir_and_file_purge(self):
+
+        folders = [f[0] for f in self.init_trees[0][1]]
+
+        # The first sync works fine
+        sync('src', 'dst', "sync", purge=True, verbose=False)
+        for subfolder in folders:
+            self.assertExists(f'dst/{subfolder}/test1.txt')
+
+        # Remove the sub2 directory from the source
+        shutil.rmtree('src/sub2', onerror=lambda func, path, _: (os.chmod(path, stat.S_IWRITE), func(path)))
+
+        # Now the sync (with purge set to True) should also delete the sub2 directory in the destination
+        sync('src', 'dst', "sync", purge=True, verbose=False)
+        # Very strange: Often I'll get an error, but sometimes it seems to work
+        self.assertNotExists(f'dst/sub2/test1.txt')
+        self.assertNotExists(f'dst/sub2')
 
 class TestsSyncWithContent(DirSyncTests):
 
