@@ -28,6 +28,8 @@ class DirSyncTests:
 
         yield
 
+        time.sleep(0.01)
+
         for x in os.listdir('.'):
             self.rm(x)
 
