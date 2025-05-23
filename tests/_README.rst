@@ -11,11 +11,9 @@ especially if you're not familiar with zc.buildout and/or tox.
 The tests
 ---------
 
-dirsync uses nose_ for testing. All the tests are in the
-``tests`` directory, and the nose test runner uses the ``all-modules`` option
-which is defined in ``tests/setup.cfg``. This means that any object which is
-not intended to contain tests (e.g. a base classes module) shall contain the
-statement ``__test__ = False``.
+dirsync uses pytest_ for testing. All the tests are in the ``tests`` directory.
+The files not starting with ``test_`` are not intended to contain tests but only
+helper functions, classes or data.
 
 The ``setup.cfg`` file also contains coverage pre-configuration information,
 but coverage is disabled by default.
@@ -29,17 +27,12 @@ versions of libraries together in completely isolated virtual environments,
 ensuring robustness and repeatability. Its most common usage is to generate
 scripts or builds.
 
-You don't even need to install it globally nor in a virtual environment as it
-has its own local installation script. To locally install buildout, go to the
-main directory (where the ``buildout.cfg`` and ``bootstrap.py`` lie),
-and type::
+You only need to have buildout installed in your current virtual environment.
+I generally install it in a virtual environment called ``buildout`` where I
+only have ``zc.buildout`` which I use for all my projects::
 
-   $ python bootstrap.py
-
-This will create a ``buildout`` script in a ``bin`` folder. Now you just have
-to run::
-
-   $ bin/buildout
+   $ pip install zc.buildout
+   $ buildout
 
 It may take a few minutes to download and install the dependencies in the
 *local* folder, and generate the scripts as defined in the ``buildout.cfg``

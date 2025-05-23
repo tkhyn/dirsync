@@ -49,6 +49,13 @@ Fixed:
 - Comparisons on windows
 - Read-only files handling (#25)
 
+2.2.6 (24/05/2025)
+..................
+
+Fixed:
+- remove orphan directory when it contains read-only files (#49)
+- prevents error if target dir cannot be created
+
 
 2.1 (08-09-2014)
 ----------------

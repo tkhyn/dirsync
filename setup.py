@@ -1,7 +1,7 @@
 """
 dirsync
 Advanced directory tree synchronisation tool
-(c) 2014-2019 Thomas Khyn
+(c) 2014+ Thomas Khyn
 (c) 2003-2015 Anand B Pillai
 MIT license (see LICENSE.txt)
 """
@@ -50,7 +50,6 @@ setup(
         'Topic :: System :: Archiving :: Mirroring'
     ],
     packages=find_packages(),
-    install_requires=('six',),
     entry_points={
         'console_scripts': [
             'dirsync = dirsync.run:from_cmdline'

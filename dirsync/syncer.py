@@ -221,13 +221,19 @@ class Syncer(object):
                 if self._verbose:
                     self.log('Deleting %s' % fullf2)
                 try:
-                    if os.path.isfile(fullf2):
+                    if os.path.exists(fullf2):
                         try:
                             try:
-                                os.remove(fullf2)
+                                if os.path.isfile(fullf2):
+                                    os.remove(fullf2)
+                                elif os.path.isdir(fullf2):
+                                    shutil.rmtree(fullf2)
                             except PermissionError as e:
                                 os.chmod(fullf2, stat.S_IWRITE)
-                                os.remove(fullf2)
+                                if os.path.isfile(fullf2):
+                                    os.remove(fullf2)
+                                elif os.path.isdir(fullf2):
+                                    shutil.rmtree(fullf2)
                             self._deleted.append(fullf2)
                             self._numdelfiles += 1
                         except OSError as e:
@@ -260,9 +266,12 @@ class Syncer(object):
             elif stat.S_ISDIR(st.st_mode):
                 to_make = os.path.join(self._dir2, f1)
                 if not os.path.exists(to_make):
-                    os.makedirs(to_make)
-                    self._numnewdirs += 1
-                    self._added.append(to_make)
+                    try:
+                        os.makedirs(to_make)
+                        self._numnewdirs += 1
+                        self._added.append(to_make)
+                    except FileNotFoundError as e:
+                        self.log(str(e))
 
         # common files/directories
         for f1 in self._dcmp.common:

@@ -5,18 +5,8 @@ Dirsync options list
 import os
 import sys
 from argparse import ArgumentParser
-
-try:
-    from collections import OrderedDict
-except ImportError:
-    from ordereddict import OrderedDict
-
-try:
-    from ConfigParser import ConfigParser  # python 2
-except ImportError:
-    from configparser import ConfigParser  # python 3
-
-from six import string_types
+from collections import OrderedDict
+from configparser import ConfigParser
 
 
 from .version import __pkg_name__
@@ -181,7 +171,7 @@ class ArgParser(ArgumentParser):
             curdef = opt.get('default', '')
             if isinstance(curdef, bool):
                 newdef = val not in ('0', 'False', 'false')
-            elif isinstance(curdef, string_types):
+            elif isinstance(curdef, str):
                 newdef = val
             else:
                 newdef = val.strip('\n').split('\n')

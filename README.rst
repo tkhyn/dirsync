@@ -1,15 +1,15 @@
 dirsync
 =======
 
-|copyright| 2014-2019 Thomas Khyn
+|copyright| 2014+ Thomas Khyn
 |copyright| 2003-2015 Anand B Pillai
 
 Advanced directory tree synchronisation tool
 
 based on `Python robocopier`_ by Anand B Pillai
 
-If you like dirsync and are looking for a way to thank me and/or encourage
-future development, here is my BTC or BCH donation address:
+If you like dirsync and find it useful, you may want to thank me and
+encourage future development by sending a few mBTC / mBCH / mBSV at this address:
 ``1EwENyR8RV6tMc1hsLTkPURtn5wJgaBfG9``.
 
 Usage
@@ -54,15 +54,24 @@ Additional Options
 --ctime                 Also takes into account the source file\'s creation
                         time (Windows) or the source file\'s last metadata
                         change (Unix)
---content               Takes into account ONLY content of files. 
+--content               Takes into account ONLY content of files.
                         Synchronize ONLY different files.
-                        At two-way synchronization source files content 
+                        At two-way synchronization source files content
                         have priority if destination and source are existed
 --ignore, -x patterns   Regex patterns to ignore
 --only, -o patterns     Regex patterns to include (exclude every other)
 --exclude, -e patterns  Regex patterns to exclude
 --include, -i patterns  Regex patterns to include (with precedence over
                         excludes)
+
+.. note::
+
+   The regex options are matches, which means they need to match the whole paths from the beginning.
+
+   From the command line, the ``ignore``, ``only``, ``exclude`` and ``include`` options can be
+   followed by one or several regex pattern(s).
+
+   When using the python API, these options are to be specified as lists of regex strings.
 
 
 Configuration file
