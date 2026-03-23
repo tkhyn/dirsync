@@ -101,7 +101,7 @@ class Syncer(object):
 
         # excludes .dirsync file by default, must explicitly be in include
         # not to be excluded
-        self._exclude.append('^\.dirsync$')
+        self._exclude.append(r'^\.dirsync$')
 
         if not os.path.isdir(self._dir1):
             raise ValueError("Error: Source directory does not exist.")
