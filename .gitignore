@@ -1,6 +1,7 @@
 # buildout files and folders
 bin
 .installed.cfg
+eggs
 
 # tox directory
 .tox
