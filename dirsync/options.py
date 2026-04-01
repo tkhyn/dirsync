@@ -8,7 +8,6 @@ from argparse import ArgumentParser
 from collections import OrderedDict
 from configparser import ConfigParser
 
-
 from .version import __pkg_name__
 
 __all__ = ['USER_CFG_FILE', 'DEFAULT_USER_CFG', 'OPTIONS', 'ArgParser']
@@ -18,7 +17,6 @@ DEFAULT_USER_CFG = """# %s default options
 [defaults]
 action = sync
 """ % __pkg_name__
-
 
 options = (
     ('verbose', (('-v',), dict(
@@ -102,7 +100,6 @@ options = (
     ))),
 )
 
-
 OPTIONS = OrderedDict(options)
 
 
@@ -179,3 +176,7 @@ class ArgParser(ArgumentParser):
             defaults[name] = newdef
 
         self.set_defaults(**defaults)
+
+
+class InvalidArgumentError(Exception):
+    """Custom exception for argument errors."""
